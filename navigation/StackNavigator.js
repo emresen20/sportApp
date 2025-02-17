@@ -20,6 +20,7 @@ const StackNavigator = () => {
           name="Home"
           component={HomeScreen}
           options={{
+            headerShown:false,
             tabBarLabel: 'Home', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon
@@ -34,6 +35,7 @@ const StackNavigator = () => {
           name="Play"
           component={PlayScreen}
           options={{
+            headerShown:false,
             tabBarLabel: 'Play', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon
@@ -49,6 +51,7 @@ const StackNavigator = () => {
           name="Book"
           component={BookScreen}
           options={{
+            headerShown:false,
             tabBarLabel: 'Book', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon
@@ -64,6 +67,7 @@ const StackNavigator = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
+            headerShown:false,
             tabBarLabel: 'Profile', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon

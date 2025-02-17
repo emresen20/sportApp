@@ -20,7 +20,6 @@ const StackNavigator = () => {
           name="Home"
           component={HomeScreen}
           options={{
-            headerShown:false,
             tabBarLabel: 'Home', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon

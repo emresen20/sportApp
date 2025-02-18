@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   Pressable,
+  ImageBackground,
 } from 'react-native';
 import React, {useLayoutEffect} from 'react';
 import {
@@ -13,6 +14,8 @@ import {
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -41,6 +44,37 @@ const HomeScreen = () => {
       ),
     });
   });
+
+  const data = [
+    {
+      id: '10',
+      image:
+        'https://playov2.gumlet.io/v3_homescreen/marketing_journey/Tennis%20Spotlight.png',
+      text: 'Learn Tennis',
+      description: 'Know more',
+    },
+    {
+      id: '11',
+      image:
+        'https://playov2.gumlet.io/v3_homescreen/marketing_journey/playo_spotlight_08.png',
+      text: 'Up Your Game',
+      description: 'Find a coach',
+    },
+    {
+      id: '12',
+      image:
+        'https://playov2.gumlet.io/v3_homescreen/marketing_journey/playo_spotlight_03.png',
+      text: 'Hacks to win',
+      description: 'Yes, Please!',
+    },
+    {
+      id: '13',
+      image:
+        'https://playov2.gumlet.io/v3_homescreen/marketing_journey/playo_spotlight_02.png',
+      text: 'Spotify Playolist',
+      description: 'Show more',
+    },
+  ];
 
   return (
     <ScrollView style={styles.scroll}>
@@ -84,43 +118,115 @@ const HomeScreen = () => {
         <Text style={styles.nogameText}>You have no Games Today</Text>
 
         <Pressable style={styles.viewCalendar}>
-            <Text style={styles.TextCalendar}>
-                View My Calendar
-            </Text>
+          <Text style={styles.TextCalendar}>View My Calendar</Text>
         </Pressable>
       </View>
 
       <View style={styles.footballcontaienerview}>
-        <Pressable style={{flex:1}}>
-            <View style={styles.footbalimageview}>
-                <Image 
-                source={{uri:'https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?auto=compress&cs=tinysrgb&w=800'}}
-                style={styles.footballimage}
-                 />
-            </View>
+        <Pressable style={{flex: 1}}>
+          <View style={styles.footbalimageview}>
+            <Image
+              source={{
+                uri: 'https://images.pexels.com/photos/262524/pexels-photo-262524.jpeg?auto=compress&cs=tinysrgb&w=800',
+              }}
+              style={styles.footballimage}
+            />
+          </View>
 
-            <Pressable style={styles.playpresabble}>
-                <View>
-                    <Text style={styles.firsttextonpicture}>Play</Text>
-                    <Text style={styles.secondttextonpicture}>Find Players and join their activities</Text>
-                </View>
-            </Pressable>
-        </Pressable>
-        <Pressable style={{flex:1}}>
-            <View style={styles.footbalimageview}>
-                <Image 
-                source={{uri:'https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=800'}}
-                style={styles.footballimage}
-                 />
+          <Pressable style={styles.playpresabble}>
+            <View>
+              <Text style={styles.firsttextonpicture}>Play</Text>
+              <Text style={styles.secondttextonpicture}>
+                Find Players and join their activities
+              </Text>
             </View>
-
-            <Pressable style={styles.playpresabble}>
-                <View>
-                    <Text style={styles.firsttextonpicture}>Book</Text>
-                    <Text style={styles.secondttextonpicture}>Book your slots in venues nearby</Text>
-                </View>
-            </Pressable>
+          </Pressable>
         </Pressable>
+        <Pressable style={{flex: 1}}>
+          <View style={styles.footbalimageview}>
+            <Image
+              source={{
+                uri: 'https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=800',
+              }}
+              style={styles.footballimage}
+            />
+          </View>
+
+          <Pressable style={styles.playpresabble}>
+            <View>
+              <Text style={styles.firsttextonpicture}>Book</Text>
+              <Text style={styles.secondttextonpicture}>
+                Book your slots in venues nearby
+              </Text>
+            </View>
+          </Pressable>
+        </Pressable>
+      </View>
+
+      <View style={{padding: hp('1.5')}}>
+        <View style={styles.groupsview}>
+          <View style={styles.greencircleview}>
+            <AntDesign name="addusergroup" size={24} color="green" />
+          </View>
+
+          <View>
+            <Text style={{fontWeight: 'bold'}}>Groups</Text>
+
+            <Text style={{marginTop: hp('1.2'), color: 'gray'}}>
+              Connect,Compete and Discuss
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={{padding: hp('1.5')}}>
+        <View style={styles.groupsview}>
+          <View style={styles.yellowcircleview}>
+            <Ionicons name="tennisball-outline" size={24} color="black" />
+          </View>
+
+          <View>
+            <Text style={{fontWeight: 'bold'}}>Game Time Activities</Text>
+
+            <Text style={{marginTop: hp('1.2'), color: 'gray'}}>
+              355 Playo hosted games
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={{padding: hp('1.5')}}>
+        <View
+          style={{
+            padding: hp('1'),
+            backgroundColor: 'white',
+            borderRadius: 10,
+          }}>
+          <Text style={{fontSize: hp('1.7'), fontWeight: '500'}}>
+            Spotlight
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {data?.map((item, index) => (
+              <ImageBackground
+                source={{uri: item?.image}}
+                style={styles.imageBackgroundstyle}></ImageBackground>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
+      
+      <View   style={{ marginBottom:hp('2')}}>
+        <View style={{alignItems:'center'}}>
+          <Image
+            style={{width: wp('30'), height:hp('8'),resizeMode: 'contain'}}
+            source={{
+              uri: 'https://playo-website.gumlet.io/playo-website-v2/logos-icons/new-logo-playo.png?q=50',
+            }}
+          />
+        </View>
+        <Text style={{color: 'gray', textAlign: 'center'}}>
+          Your Sports community app
+        </Text>
       </View>
 
     </ScrollView>
@@ -210,49 +316,80 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     width: wp('18%'),
   },
-  nogameText:{
-    marginTop:hp('0.3%'),
-    color:'gray'
+  nogameText: {
+    marginTop: hp('0.3%'),
+    color: 'gray',
   },
-  viewCalendar:{
-    marginTop:hp('1.5'),
-    marginLeft:'auto',
-    marginRight:'auto',
-    marginBottom:hp('0.4%')
+  viewCalendar: {
+    marginTop: hp('1.5'),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: hp('0.4%'),
   },
-  TextCalendar:{
-    fontSize:hp('1.9'),
-    fontWeight:"600",
-    textDecorationLine:'underline'
+  TextCalendar: {
+    fontSize: hp('1.9'),
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
-  footballimage:{
-    width:wp('43'),
-    height:hp('16'),
-    borderRadius:10
+  footballimage: {
+    width: wp('43'),
+    height: hp('16'),
+    borderRadius: 10,
   },
-  playpresabble:{
-    backgroundColor:'white',
-    padding:('6'),
-    width:wp('43'),
-    borderRadius:10
-
+  playpresabble: {
+    backgroundColor: 'white',
+    padding: '6',
+    width: wp('43'),
+    borderRadius: 10,
   },
-  footbalimageview:{
-    borderRadius:10
+  footbalimageview: {
+    borderRadius: 10,
   },
-  footballcontaienerview:{
-    padding:hp('1.7'),
-    flexDirection:'row',
-    alignItems:'center',
-    gap:hp('1.6')
+  footballcontaienerview: {
+    padding: hp('1.7'),
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: hp('1.6'),
   },
-  firsttextonpicture:{
-    fontSize:hp('1.7'),
-    fontWeight:'500'
+  firsttextonpicture: {
+    fontSize: hp('1.7'),
+    fontWeight: '500',
   },
-  secondttextonpicture:{
-    fontSize:hp('1.7'),
-    color:'gray',
-    marginTop:hp('0.5')
-  }
+  secondttextonpicture: {
+    fontSize: hp('1.7'),
+    color: 'gray',
+    marginTop: hp('0.5'),
+  },
+  groupsview: {
+    padding: hp('1.1'),
+    backgroundColor: 'white',
+    borderRadius: 10,
+    flexDirection: 'row',
+    gap: 10,
+  },
+  greencircleview: {
+    width: wp('13'),
+    height: hp('6'),
+    borderRadius: 25,
+    backgroundColor: '#29AB87',
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  yellowcircleview: {
+    width: wp('13'),
+    height: hp('6'),
+    borderRadius: 25,
+    backgroundColor: 'yellow',
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageBackgroundstyle: {
+    resizeMode: 'contain',
+    width: wp('51'),
+    height: hp('32'),
+    marginRight: 10,
+    marginVertical: 15,
+  },
 });

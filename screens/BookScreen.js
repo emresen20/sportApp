@@ -1,12 +1,20 @@
-import { SafeAreaView, StyleSheet, Text, View,  Image, } from 'react-native'
-import React from 'react'
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Pressable,
+} from 'react-native';
+import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const BookScreen = () => {
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:'#f5f5f5'}}>
-        <View
+    <SafeAreaView style={{flex: 1, backgroundColor: '#f5f5f5'}}>
+      <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -38,10 +46,44 @@ const BookScreen = () => {
         </View>
       </View>
 
+      <View
+        style={{
+          marginHorizontal: 12,
+          backgroundColor: '#E8E8E8',
+          padding: 12,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          borderRadius: 20,
+          alignItems: 'center',
+        }}>
+        <TextInput placeholder="Search for Venues" />
+        <Ionicons name="search" size={24} color="gray" />
+      </View>
+
+      <Pressable
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 10,
+          padding: 13,
+        }}>
+        {['Sports & Availabilty', 'Favorites', 'Offers'].map(item => (
+          <View
+            style={{
+              padding: 10,
+              borderRadius: 10,
+              borderColor: '#E0E0E0',
+              borderWidth: 2,
+            }}
+            key={item}>
+            <Text>{item}</Text>
+          </View>
+        ))}
+      </Pressable>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default BookScreen
+export default BookScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

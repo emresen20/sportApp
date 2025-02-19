@@ -5,6 +5,7 @@ import {
   View,
   Image,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,8 +15,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const PlayScreen = () => {
-  const [option, setOption] = useState('My Sports');
+const PlayScreen = ({props}) => {
+  const [option, setOption] = useState('Calendar');
+  const [sport, setSport] = useState('Badminton');
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>
@@ -66,7 +68,12 @@ const PlayScreen = () => {
             gap: hp('1.1'),
             marginVertical: hp('1.4'),
           }}>
-          <Pressable onPress={()=> setOption("Calendar")}>
+          {['Calendar', 'My Sports', 'Other Sports'].map(item => (
+            <Pressable key={item} onPress={() => setOption(item)}>
+              <Text style={styles.categories(option, item)}>{item}</Text>
+            </Pressable>
+          ))}
+          {/* <Pressable onPress={() => setOption('Calendar')}>
             <Text
               style={{
                 fontWeight: '500',
@@ -76,12 +83,81 @@ const PlayScreen = () => {
               Calendar
             </Text>
           </Pressable>
-          <Pressable onPress={()=> setOption("m")}>
-            <Text>My Sports</Text>
+          <Pressable onPress={() => setOption('My Sports')}>
+            <Text
+              style={{
+                fontWeight: '500',
+                fontSize: hp('1.8'),
+                color: option == 'My Sports' ? '#12e04c' : 'white',
+              }}>
+              My Sports
+            </Text>
           </Pressable>
-          <Pressable>
-            <Text>Other Sports</Text>
-          </Pressable>
+          <Pressable onPress={() => setOption('Other Sports')}>
+            <Text
+              style={{
+                fontWeight: '500',
+                fontSize: hp('1.8'),
+                color: option == 'Other Sports' ? '#12e04c' : 'white',
+              }}>
+              Other Sports
+            </Text>
+          </Pressable> */}
+        </View>
+
+        <View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {['Badminton', 'Cricket', 'Cycling', 'Running'].map(item => (
+              <Pressable
+                key={item}
+                style={styles.sports(sport, item)}
+                onPress={() => setSport(item)}>
+                <Text style={{color: 'white'}}>{item}</Text>
+              </Pressable>
+            ))}
+
+            {/* <Pressable style={{
+                    padding:hp('1'),
+                    borderColor:'white',
+                    marginRight:hp('1'),
+                    borderRadius:8,
+                    borderWidth: sport == 'Badminton' ?0 :1,
+                    backgroundColor: sport == 'Badminton' ?'#1dbf22':"transparent"
+                    }}>
+                    <Text>Badminton</Text>
+                </Pressable>
+                <Pressable style={{
+                    padding:hp('1'),
+                    borderColor:'white',
+                    marginRight:hp('1'),
+                    borderRadius:8,
+                    borderWidth: sport == 'Circket' ?0 :1,
+                    backgroundColor: sport == 'Circket' ?'#1dbf22':"transparent"
+                    }}>
+                    <Text>Circket</Text>
+                </Pressable>
+                <Pressable style={{
+                    padding:hp('1'),
+                    borderColor:'white',
+                    marginRight:hp('1'),
+                    borderRadius:8,
+                    borderWidth: sport == 'Cycling' ?0 :1,
+                    backgroundColor: sport == 'Cycling' ?'#1dbf22':"transparent"
+                    }}>
+                    <Text>Cycling</Text>
+                </Pressable>
+                <Pressable style={{
+                    padding:hp('1'),
+                    borderColor:'white',
+                    marginRight:hp('1'),
+                    borderRadius:8,
+                    borderWidth: sport == 'Running' ?0 :1,
+                    backgroundColor: sport == 'Running' ?'#1dbf22':"transparent"
+                    }}>
+                    <Text>Running</Text>
+                </Pressable>
+                 */}
+          </ScrollView>
         </View>
       </View>
     </SafeAreaView>
@@ -96,4 +172,17 @@ const styles = StyleSheet.create({
     width: wp('7.7%'),
     borderRadius: hp('9%'),
   },
+  sports: (selectedSport, sportName) => ({
+    padding: hp('1.3'),
+    borderColor: 'white',
+    marginRight: hp('1'),
+    borderRadius: 8,
+    borderWidth: selectedSport === sportName ? 0 : 1,
+    backgroundColor: selectedSport === sportName ? '#1dbf22' : 'transparent',
+  }),
+  categories: (selectedoption, optionName) => ({
+    fontWeight: '500',
+    fontSize: hp('1.8'),
+    color: selectedoption == optionName ? '#12e04c' : 'white',
+  }),
 });

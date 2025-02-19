@@ -160,6 +160,22 @@ const PlayScreen = ({props}) => {
           </ScrollView>
         </View>
       </View>
+
+      <View style={styles.createView}>
+        <Pressable>
+            <Text style={{fontWeight:'bold'}}>Create Game</Text>
+        </Pressable>
+
+        <View style={{flexDirection:'row', alignItems:'center',gap:hp('1.2')}}>
+            <Pressable>
+                <Text style={{fontWeight:'bold'}}>Filter</Text>
+            </Pressable>
+
+            <Pressable>
+                <Text style={{fontWeight:'bold'}}>Sort</Text>
+            </Pressable>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -185,4 +201,11 @@ const styles = StyleSheet.create({
     fontSize: hp('1.8'),
     color: selectedoption == optionName ? '#12e04c' : 'white',
   }),
+  createView:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    padding:hp('1.4'),
+    backgroundColor:'white'
+  }
 });

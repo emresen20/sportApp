@@ -17,7 +17,7 @@ const BookScreen = () => {
   const venues = [
     {
       name: '147 One Four Seven Snooker, Billiards and Pool Sports Academy',
-      rating: 4,
+      rating: 4.5,
       deferLink: 'https://playo.page.link/ry8TT',
       fullLink:
         'https://playo.co/venue/?venueId=4ec5b58f-d58f-4ce1-8c84-2caa63007ecc',
@@ -25,7 +25,7 @@ const BookScreen = () => {
       image:'https://playo.gumlet.io/147ONEFOURSEVENSNOOKERBILLIARDSANDPOOLSPORTSACADEMY/1.png?w=700&format=webp&q=30&overlay=https://playo-website.gumlet.io/playo-website-v2/logos-icons/playo-logo.png&overlay_width_pct=0.2&overlay_height_pct=1&overlay_position=bottomright',
       ratingCount: 3,
       lat: 12.9341796,
-      adress:'5, Bhuvanappa Layout, Kaveri Layout, Suddagunte Palya, Bengaluru, Karnataka 560029',
+      address:'5, Bhuvanappa Layout, Kaveri Layout, Suddagunte Palya, Bengaluru, Karnataka 560029',
       lng: 77.6101537,
       icon: 'https://maps.google.com/mapfiles/kml/paddle/4-lv.png',
       filter_by: ['Pool', 'Snooker'],
@@ -42,7 +42,7 @@ const BookScreen = () => {
       avgRating: 5,
       image:'https://playo.gumlet.io/AADUKALAMMULTISPORTSFACILITYANDTRAININGACADEMY/33intactClinicsIndiranagar1663162050263.jpeg?w=700&format=webp&q=30&overlay=https://playo-website.gumlet.io/playo-website-v2/logos-icons/playo-logo.png&overlay_width_pct=0.2&overlay_height_pct=1&overlay_position=bottomright',
       ratingCount: 7,
-      adress:'277, Ground Floor, 1st Main Rd, HAL 2nd Stage, Indiranagar, Bengaluru, Karnataka - 560038',
+      address:'277, Ground Floor, 1st Main Rd, HAL 2nd Stage, Indiranagar, Bengaluru, Karnataka - 560038',
       icon: 'https://maps.google.com/mapfiles/kml/paddle/5-lv.png',
       filter_by: [
         'Consultancy',
@@ -61,7 +61,7 @@ const BookScreen = () => {
         'https://playo.co/venue/?venueId=cdbc6917-01b2-4ee1-81ef-cbeeda5b6eeb',
       lat: 12.901148,
       lng: 77.597311,
-      adress:'New No: 165/14, Doresanipalya, Landmark Behind Kalyani Magnum Software Park, Rose Garden Rd, Krishnaraju Layout, Amalodbhavi Nagar, Pand, Bengaluru, Karnataka 560076',
+      address:'New No: 165/14, Doresanipalya, Landmark Behind Kalyani Magnum Software Park, Rose Garden Rd, Krishnaraju Layout, Amalodbhavi Nagar, Pand, Bengaluru, Karnataka 560076',
       image:'https://playo.gumlet.io/4SSHUTTLESMASHSPORTSSTUDIO/4sshuttlesmashsportsstudio5.jpg?w=700&format=webp&q=30&overlay=https://playo-website.gumlet.io/playo-website-v2/logos-icons/playo-logo.png&overlay_width_pct=0.2&overlay_height_pct=1&overlay_position=bottomright',
       rating: 3,
       icon: 'https://maps.google.com/mapfiles/kml/paddle/3-lv.png',
@@ -77,7 +77,7 @@ const BookScreen = () => {
       deferLink: 'https://z34v4.app.goo.gl/X5tg',
       lat: 12.7016928,
       lng: 77.8472922,
-      adress:'524/2,525/1b, Near Hp Petrol Bunk, Royakottai Road, Karapalli, Hosur-635109',
+      address:'524/2,525/1b, Near Hp Petrol Bunk, Royakottai Road, Karapalli, Hosur-635109',
       image:'https://playo.gumlet.io/7ELEVENBADMINTONACADEMY20230112124743905590/7ElevenBadmintonAcademy1673527526517.jpg?w=700&format=webp&q=30&overlay=https://playo-website.gumlet.io/playo-website-v2/logos-icons/playo-logo.png&overlay_width_pct=0.2&overlay_height_pct=1&overlay_position=bottomright',
       rating: 4,
       icon: 'https://maps.google.com/mapfiles/kml/paddle/4-lv.png',
@@ -91,7 +91,7 @@ const BookScreen = () => {
       fullLink:
         'https://playo.co/venue?venueId=f596daa9-5b6c-46c4-847c-b64767d5b3fc',
       deferLink: 'https://z34v4.app.goo.gl/5zoj',
-      adress:'Google Plus Code: 2JQ3+7R; Address: #1, Sy No 28/3, (RKB Estate), V. Nagenahalli Main Road (Near Kanaka Nagar), R.T. Nagar Post, Bangalore',
+      address:'Google Plus Code: 2JQ3+7R; Address: #1, Sy No 28/3, (RKB Estate), V. Nagenahalli Main Road (Near Kanaka Nagar), R.T. Nagar Post, Bangalore',
       lat: 13.038189,
       lng: 77.604562,
       image:'https://playo.gumlet.io/VKMATCHPOINTRTNAGAR20200201082734053724/91SportingCoBadmintonArenaScholarsSportsArena1692089657817.jpg?w=700&format=webp&q=30&overlay=https://playo-website.gumlet.io/playo-website-v2/logos-icons/playo-logo.png&overlay_width_pct=0.2&overlay_height_pct=1&overlay_position=bottomright',

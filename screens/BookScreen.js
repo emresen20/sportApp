@@ -21,8 +21,7 @@ const BookScreen = () => {
       address: 'Ashok Nagar',
       newImage:
         'https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=800',
-      image:
-        'https://playo.gumlet.io/DDSASTJOSEPHSBOYSHIGHSCHOOLEUROPEANS20220919091705834667/DDSAStJosephsBoysHighSchoolEuropeans1666166846682.jpg?mode=crop&crop=smart&h=200&width=450&q=40&format=webp',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREi1LNNxtb4FpYoUKGNY5gVMzYClA2CUIuhg&s',
       location:
         'No. 27, Museum Rd, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka',
       rating: 3.6,

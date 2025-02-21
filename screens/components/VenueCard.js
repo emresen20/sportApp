@@ -11,7 +11,7 @@ const VenueCard = ({item}) => {
         onPress={() =>
           navigation.navigate('Venue', {
             name: item?.name,
-            image: item?.newImage,
+            image: item?.image,
             sportsAvailable: item?.sportsAvailable,
             rating: item?.rating,
             timings: item?.timings,

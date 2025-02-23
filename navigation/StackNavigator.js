@@ -9,6 +9,13 @@ import PlayScreen from '../screens/PlayScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import VenueInfoScreen from '../screens/VenueInfoScreen';
+import StartScreen from '../screens/StartScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import PasswordScreen from '../screens/PasswordScreen';
+import OtpScreen from '../screens/OtpScreen';
+import SelectImage from '../screens/SelectImage';
+import PreFinalScreen from '../screens/PreFinalScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -35,7 +42,7 @@ const StackNavigator = () => {
           name="Play"
           component={PlayScreen}
           options={{
-            headerShown:false,
+            headerShown: false,
             tabBarLabel: 'Play', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon
@@ -51,7 +58,7 @@ const StackNavigator = () => {
           name="Book"
           component={BookScreen}
           options={{
-            headerShown:false,
+            headerShown: false,
             tabBarLabel: 'Book', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon
@@ -67,7 +74,7 @@ const StackNavigator = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
-            headerShown:false,
+            headerShown: false,
             tabBarLabel: 'Profile', // Tab etiketi
             tabBarIcon: ({focused}) => (
               <Icon
@@ -82,6 +89,21 @@ const StackNavigator = () => {
     );
   }
 
+  const AuthStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="PasswordScreen" component={PasswordScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="OtpScreen" component={OtpScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="NameScreen" component={RegisterScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="SelectImage" component={SelectImage} options={{headerShown:false}}/>
+        <Stack.Screen name="PreFinalScreen" component={PreFinalScreen} options={{headerShown:false}}/>
+      </Stack.Navigator>
+    );
+  };
+
   function MainStack() {
     return (
       <Stack.Navigator>
@@ -90,7 +112,7 @@ const StackNavigator = () => {
           component={BottomTabs}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Venue"
           component={VenueInfoScreen}
           options={{headerShown: false}}
@@ -101,7 +123,8 @@ const StackNavigator = () => {
 
   return (
     <NavigationContainer>
-      <MainStack />
+
+      <AuthStack/>
     </NavigationContainer>
   );
 };

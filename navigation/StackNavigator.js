@@ -16,6 +16,7 @@ import PasswordScreen from '../screens/PasswordScreen';
 import OtpScreen from '../screens/OtpScreen';
 import SelectImage from '../screens/SelectImage';
 import PreFinalScreen from '../screens/PreFinalScreen';
+import NameScreen from '../screens/NameScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -97,7 +98,7 @@ const StackNavigator = () => {
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown:false}}/>
         <Stack.Screen name="PasswordScreen" component={PasswordScreen} options={{headerShown:false}}/>
         <Stack.Screen name="OtpScreen" component={OtpScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="NameScreen" component={RegisterScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="NameScreen" component={NameScreen} options={{headerShown:false}}/>
         <Stack.Screen name="SelectImage" component={SelectImage} options={{headerShown:false}}/>
         <Stack.Screen name="PreFinalScreen" component={PreFinalScreen} options={{headerShown:false}}/>
       </Stack.Navigator>

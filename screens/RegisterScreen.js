@@ -44,7 +44,8 @@ const RegisterScreen = () => {
               backgroundColor: isValidEmail(email) ? '#2dcf30' : '#E0E0E0',
               borderRadius: 8,
             }}
-            disabled={!isValidEmail(email)}>
+            //disabled={!isValidEmail(email)}
+            >
             <Text style={{textAlign: 'center'}}>Next</Text>
           </Pressable>
         </View>

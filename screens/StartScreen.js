@@ -1,8 +1,17 @@
-import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import MapView, {Marker} from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
 
 const StartScreen = () => {
+    const navigation=useNavigation();
   const mapView = useRef(null);
   const users = [
     {
@@ -122,17 +131,18 @@ const StartScreen = () => {
   //     }
   //   }, [users]);
   return (
-    <SafeAreaView style={styles.container}>
-      <MapView
-        ref={mapView}
-        style={{width: '100%', height: 400}}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}>
-        {/* {users?.map((user, index) => ( bu kodda kendi adresleri için
+    <>
+      <SafeAreaView style={styles.container}>
+        <MapView
+          ref={mapView}
+          style={{width: '100%', height: 400}}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}>
+          {/* {users?.map((user, index) => ( bu kodda kendi adresleri için
           <Marker
             key={index}
             coordinate={{
@@ -152,43 +162,100 @@ const StartScreen = () => {
             </View>
           </Marker>
         ))} */}
-        {circularPoints?.map((point, index) => {
-          // bu kullanıcıların gerçek olmayan konumlarında bi daire çizdiriyor
-          const user = users[index % users?.length];
-          return (
-            <Marker key={index} coordinate={point}>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Image
+          {circularPoints?.map((point, index) => {
+            // bu kullanıcıların gerçek olmayan konumlarında bi daire çizdiriyor
+            const user = users[index % users?.length];
+            return (
+              <Marker key={index} coordinate={point}>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Image
+                    style={{
+                      width: 70,
+                      height: 70,
+                      resizeMode: 'cover',
+                      borderRadius: 35,
+                    }}
+                    source={{uri: user?.image}}
+                  />
+                </View>
+                <View
                   style={{
-                    width: 70,
-                    height: 70,
-                    resizeMode: 'cover',
-                    borderRadius: 35,
-                  }}
-                  source={{uri: user?.image}}
-                />
-              </View>
-              <View
-                style={{
-                  paddingHorizontal: 10,
-                  paddingVertical: 7,
-                  borderRadius: 7,
-                  backgroundColor: 'white',
-                }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 13,
-                    fontWeight: '500',
+                    paddingHorizontal: 10,
+                    paddingVertical: 7,
+                    borderRadius: 7,
+                    backgroundColor: 'white',
                   }}>
-                  {user?.description}
-                </Text>
-              </View>
-            </Marker>
-          );
-        })}
-      </MapView>
-    </SafeAreaView>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 13,
+                      fontWeight: '500',
+                    }}>
+                    {user?.description}
+                  </Text>
+                </View>
+              </Marker>
+            );
+          })}
+        </MapView>
+        <View
+          style={{
+            marginTop: 35,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '500',
+              width: '50%',
+              textAlign: 'center',
+            }}>
+            Find Player in your neighbhourhood
+          </Text>
+          <Text style={{marginTop: 20, color: 'gray', fontSize: 15}}>
+            Just like you did as a Kid!
+          </Text>
+        </View>
+        <Pressable
+        onPress={()=>navigation.navigate('LoginScreen')}
+          style={{
+            marginTop: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{fontSize: 16, color: 'gray'}}>
+            Already have an account? Login
+          </Text>
+        </Pressable>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 25,
+          }}>
+          <Image
+            style={{width: 110, height: 60, resizeMode: 'contain'}}
+            source={{
+              uri: 'https://playo-website.gumlet.io/playo-website-v2/logos-icons/new-logo-playo.png?q=50',
+            }}
+          />
+        </View>
+      </SafeAreaView>
+      <View style={{padding: 10,marginTop: 'auto'}}>
+        <Pressable
+            onPress={()=>navigation.navigate('RegisterScreen')}
+          style={{
+            marginTop: 'auto',
+            backgroundColor: '#1ec921',
+            padding: 12,
+            borderRadius: 7,
+            marginBottom: 20,
+          }}>
+          <Text style={{textAlign:'center',color:'white',fontWeight:'500'}}>READY, SET , GO</Text>
+        </Pressable>
+      </View>
+    </>
   );
 };
 

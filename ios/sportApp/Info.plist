@@ -70,5 +70,8 @@
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App needs access to your photo library</string>
+
 </dict>
 </plist>

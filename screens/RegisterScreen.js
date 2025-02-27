@@ -6,15 +6,33 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {
+  getRegistrationProgress,
+  saveRegistrationPrgoress,
+} from '../registrationUtlis';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
-  const navigation=useNavigation();
+  const navigation = useNavigation();
   const isValidEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+  useEffect(() => {
+    getRegistrationProgress('RegisterScreen').then(progressData => {
+      if (progressData) {
+        setEmail(progressData.email || '');
+      }
+    });
+  }, []);
+  const nexttoPassword = () => {
+    if (email.trim() !== '') {
+      saveRegistrationPrgoress('RegisterScreen', {email});
+    }
+
+    navigation.navigate('PasswordScreen');
   };
   return (
     <SafeAreaView>
@@ -38,14 +56,14 @@ const RegisterScreen = () => {
           />
 
           <Pressable
-            onPress={()=>navigation.navigate('PasswordScreen')}
+            onPress={nexttoPassword}
             style={{
               padding: 15,
               backgroundColor: isValidEmail(email) ? '#2dcf30' : '#E0E0E0',
               borderRadius: 8,
             }}
-            //disabled={!isValidEmail(email)}
-            >
+            disabled={!isValidEmail(email)}
+          >
             <Text style={{textAlign: 'center'}}>Next</Text>
           </Pressable>
         </View>

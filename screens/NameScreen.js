@@ -1,14 +1,27 @@
 import {SafeAreaView, StyleSheet, Text, View, TextInput, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { getRegistrationProgress, saveRegistrationPrgoress } from '../registrationUtlis';
 
 const NameScreen = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const navigation= useNavigation();
 
+  useEffect(()=>{
+    getRegistrationProgress('NameScreen').then(progressData=>{
+        if(progressData){
+            setFirstName(progressData.firstName || '')
+            setLastName(progressData.lastName || '')
+        }  
+    })
+  },[])
+
   const saveName=()=>{
+    if(firstName.trim() !== ''){
+        saveRegistrationPrgoress('NameScreen',{firstName,lastName})
+    }
     navigation.navigate('SelectImage');
   }
 

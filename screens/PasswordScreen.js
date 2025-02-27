@@ -13,12 +13,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { saveRegistrationPrgoress } from '../registrationUtlis';
 
 const PasswordScreen = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation=useNavigation();
   const handleNext=()=>{
+    if(password.trim() !=='' ){
+        saveRegistrationPrgoress('PasswordScreen',{password});
+    }
     navigation.navigate('NameScreen')
   }
   return (

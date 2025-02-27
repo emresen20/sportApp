@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
@@ -17,10 +17,13 @@ import OtpScreen from '../screens/OtpScreen';
 import SelectImage from '../screens/SelectImage';
 import PreFinalScreen from '../screens/PreFinalScreen';
 import NameScreen from '../screens/NameScreen';
+import {AuthContext} from '../AuthContext';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
+
+  const {token} = useContext(AuthContext);
 
   function BottomTabs() {
     return (
@@ -93,14 +96,46 @@ const StackNavigator = () => {
   const AuthStack = () => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="PasswordScreen" component={PasswordScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="OtpScreen" component={OtpScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="NameScreen" component={NameScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="SelectImage" component={SelectImage} options={{headerShown:false}}/>
-        <Stack.Screen name="PreFinalScreen" component={PreFinalScreen} options={{headerShown:false}}/>
+        <Stack.Screen
+          name="StartScreen"
+          component={StartScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PasswordScreen"
+          component={PasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OtpScreen"
+          component={OtpScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NameScreen"
+          component={NameScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SelectImage"
+          component={SelectImage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PreFinalScreen"
+          component={PreFinalScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     );
   };
@@ -124,8 +159,7 @@ const StackNavigator = () => {
 
   return (
     <NavigationContainer>
-
-      <AuthStack/>
+      {token === null || token === '' ? <AuthStack /> : <MainStack />}
     </NavigationContainer>
   );
 };

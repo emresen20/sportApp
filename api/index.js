@@ -35,7 +35,14 @@ app.listen(port, () => {
 
 app.post('/register', async (req,res) => {
   try {
+   
     const userData = req.body;
+    // Kullanıcının zaten kayıtlı olup olmadığını kontrol et
+    const existingUser = await User.findOne({ email: userData.email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email is already registered' });
+    }
+
 
     const newUser = new User(userData);
     await newUser.save();

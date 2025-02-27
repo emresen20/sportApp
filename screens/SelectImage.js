@@ -47,7 +47,7 @@ const SelectImage = () => {
 
 
   useEffect(()=>{
-    getRegistrationProgress('NameScreen').then(progressData=>{
+    getRegistrationProgress('SelectImage').then(progressData=>{
         if(progressData){
             setImage(progressData.image || '')
         }  

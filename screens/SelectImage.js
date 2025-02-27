@@ -7,10 +7,11 @@ import {
   Image,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { getRegistrationProgress, saveRegistrationPrgoress } from '../registrationUtlis';
 
 const SelectImage = () => {
   const [image, setImage] = useState();
@@ -34,6 +35,8 @@ const SelectImage = () => {
     },
   ];
 
+
+
   const pickImageFromGallery = async () => {
     const result = await launchImageLibrary({mediaType: 'photo'});
     console.log(image);
@@ -42,7 +45,18 @@ const SelectImage = () => {
     }
   };
 
+
+  useEffect(()=>{
+    getRegistrationProgress('NameScreen').then(progressData=>{
+        if(progressData){
+            setImage(progressData.image || '')
+        }  
+    })
+  },[])
   const saveImage=()=>{
+    if(image.trim() !== ''){
+        saveRegistrationPrgoress('SelectImage',{image})
+    }
     navigation.navigate('PreFinalScreen')
   }
   return (

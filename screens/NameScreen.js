@@ -10,7 +10,7 @@ const NameScreen = () => {
   const navigation= useNavigation();
 
   useEffect(()=>{
-    getRegistrationProgress('NameScreen').then(progressData=>{
+    getRegistrationProgress('SelectImage').then(progressData=>{
         if(progressData){
             setFirstName(progressData.firstName || '')
             setLastName(progressData.lastName || '')
@@ -20,7 +20,7 @@ const NameScreen = () => {
 
   const saveName=()=>{
     if(firstName.trim() !== ''){
-        saveRegistrationPrgoress('NameScreen',{firstName,lastName})
+        saveRegistrationPrgoress('SelectImage',{firstName,lastName})
     }
     navigation.navigate('SelectImage');
   }

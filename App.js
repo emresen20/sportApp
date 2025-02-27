@@ -31,18 +31,19 @@
 //   );
 // }
 
-
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import StackNavigator from './navigation/StackNavigator'
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import StackNavigator from './navigation/StackNavigator';
+import {AuthProvider} from './AuthContext';
 
 const App = () => {
   return (
-    <StackNavigator/>
-  )
-}
+    <AuthProvider>
+      <StackNavigator />
+    </AuthProvider>
+  );
+};
 
+export default App;
 
-export default App
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

@@ -14,10 +14,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useNavigation } from '@react-navigation/native';
 
 const PlayScreen = ({props}) => {
   const [option, setOption] = useState('Calendar');
   const [sport, setSport] = useState('Badminton');
+  const navigation= useNavigation();
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>
@@ -162,7 +164,7 @@ const PlayScreen = ({props}) => {
       </View>
 
       <View style={styles.createView}>
-        <Pressable>
+        <Pressable onPress={()=> navigation.navigate('Create')}>
             <Text style={{fontWeight:'bold'}}>Create Game</Text>
         </Pressable>
 

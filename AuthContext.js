@@ -12,7 +12,7 @@ const AuthProvider = ({children}) => {
 
   const isLoggedIn = async () => {
     try {
-      const userToken = await AsyncStorage.setItem('token');
+      const userToken = await AsyncStorage.getItem('token');
       setToken(userToken);
     } catch (error) {
       console.log('error', error);

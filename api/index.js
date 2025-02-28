@@ -570,6 +570,16 @@ const venues = [
     }
   }
 
-  addVenues().catch(err=>{
-    console.log('error adding venues',err)
+//   addVenues().catch(err=>{ // lazım olduğunda aç
+//     console.log('error adding venues',err)
+//   })
+
+  app.get('/venues',async(req,res)=>{
+    try {
+        const venues= await Venue.find({});
+        res.status(200).json(venues)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:'Faild to fetch venures'})
+    }
   })

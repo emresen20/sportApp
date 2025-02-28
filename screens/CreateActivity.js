@@ -7,14 +7,14 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CreateActivity = () => {
@@ -27,6 +27,14 @@ const CreateActivity = () => {
   const [noOfPlayers, setnoOfPlayers] = useState(0);
 
   const [selected, setSelected] = useState(['Public']);
+
+  const route = useRoute();
+
+  useEffect(() => {
+    if (route?.params?.taggedVenue) {
+      setTaggedVenue(route?.params?.taggedVenue);
+    }
+  }, [route?.params]);
   return (
     <SafeAreaView
       style={{

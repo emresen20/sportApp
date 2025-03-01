@@ -45,7 +45,7 @@ const TagVenueScreen = () => {
     }
   }, [taggedVenue, navigation]);
 
-  handleSelectVenue = venue => {
+  handleSelectVenue = (venue) => {
     navigation.navigate('Create', {taggedVenue: venue});
   };
 

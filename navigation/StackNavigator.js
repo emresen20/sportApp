@@ -158,6 +158,7 @@ const StackNavigator = () => {
         />
          <Stack.Screen
           name="Create"
+          getId={()=>"myId"} //önemli stateler güncellenmesin isteniyorsa
           component={CreateActivity}
           options={{headerShown: false}}
         />

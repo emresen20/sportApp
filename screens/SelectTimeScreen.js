@@ -12,31 +12,80 @@ const SelectTimeScreen = () => {
       id: '0',
       type: 'morning',
       timings: '12 am - 9 am',
+      startTime: '00:00',
+      endTime: '09:00',
       icon: <Ionicons name="partly-sunny-outline" size={24} color="black" />,
     },
     {
       id: '1',
-      type: 'Day',
+      type: 'day',
       timings: '9 am - 4 pm',
+      startTime: '09:00',
+      endTime: '16:00',
       icon: <Feather name="sun" size={24} color="black" />,
     },
     {
       id: '2',
       type: 'evening',
       timings: '4pm - 9 pm',
+      startTime: '16:00',
+      endTime: '21:00',
       icon: <Feather name="sunset" size={24} color="black" />,
     },
     {
       id: '3',
       type: 'night',
-      timings: '9pm am - 11 pm',
+      timings: '9pm - 11 pm',
+      startTime: '21:00',
+      endTime: '23:00',
       icon: <Ionicons name="cloudy-night-outline" size={24} color="black" />,
     },
   ];
-  const selectTime = item => {
-    setTime(item);
-    navigation.goBack();
+  
+//   const selectTime = item => {
+//     setStartTime(item.startTime);
+//     setEndTime(item.endTime);
+//     const timeInterval = `${item.startTime} - ${item.endTime}`;
+//     navigation.navigate('Create', { timeInterval });
+//   };
+const selectTime = (timeType) => {
+    // Kareye tıklanarak seçilen zaman dilimine göre startTime ve endTime ayarlıyoruz
+    let start, end;
+  
+    switch (timeType) {
+      case 'morning':
+        start = new Date(); // Şu anki tarihi al
+        start.setHours(0, 0, 0); // 12 AM
+        end = new Date();
+        end.setHours(9, 0, 0); // 9 AM
+        break;
+      case 'Day':
+        start = new Date();
+        start.setHours(9, 0, 0); // 9 AM
+        end = new Date();
+        end.setHours(16, 0, 0); // 4 PM
+        break;
+      case 'evening':
+        start = new Date();
+        start.setHours(16, 0, 0); // 4 PM
+        end = new Date();
+        end.setHours(21, 0, 0); // 9 PM
+        break;
+      case 'night':
+        start = new Date();
+        start.setHours(21, 0, 0); // 9 PM
+        end = new Date();
+        end.setHours(23, 59, 59); // 11 PM
+        break;
+      default:
+        break;
+    }
+  
+    // Set the selected start and end time
+    setStartTime(start);
+    setEndTime(end);
   };
+  
   useEffect(() => {
     console.log(startTime);
     console.log(endTime);

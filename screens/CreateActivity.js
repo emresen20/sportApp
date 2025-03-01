@@ -1,4 +1,5 @@
 import {
+    Alert,
   Modal,
   Pressable,
   SafeAreaView,
@@ -8,7 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -21,31 +22,76 @@ import {SlideAnimation} from 'react-native-modals';
 import {BottomModal} from 'react-native-modals';
 import {ModalContent} from 'react-native-modals';
 import moment from 'moment';
+import {AuthContext} from '../AuthContext';
+import axios from 'axios';
 
 const CreateActivity = () => {
   const navigation = useNavigation();
   const [sport, setSport] = useState('');
+  console.log('sport',sport)
   const [area, setArea] = useState('');
   const [date, setDate] = useState('');
   const [timeInterval, setTimeInterval] = useState('');
   const [taggedVenue, setTaggedVenue] = useState(null);
+  console.log('taggedVenue',taggedVenue)
   const [noOfPlayers, setnoOfPlayers] = useState(0);
+  const {userId} = useContext(AuthContext);
+  console.log(userId);
 
   const [selected, setSelected] = useState(['Public']);
   const [modalVisible, setModalVisible] = useState(false);
   const route = useRoute();
 
-  useEffect(()=>{
-    if(route?.params?.timeInterval){
-        setTimeInterval(route?.params?.timeInterval)
+  useEffect(() => {
+    if (route?.params?.timeInterval) {
+      setTimeInterval(route?.params?.timeInterval);
     }
-  },[route?.params])
+  }, [route?.params]);
 
   useEffect(() => {
     if (route?.params?.taggedVenue) {
       setTaggedVenue(route?.params?.taggedVenue);
     }
-  }, [route?.params]);
+  }, [route.params]);
+
+  const createGame = async () => {
+    try {
+      const admin = userId;
+      const time = timeInterval;
+      const gameData = {
+        sport,
+        area: taggedVenue,
+        date,
+        time,
+        admin,
+        totalPlayers: noOfPlayers,
+      };
+      console.log('gameData',gameData)
+
+      const response = await axios.post(
+        'http://localhost:8000/creategame',
+        gameData,
+      );
+      console.log('Game created:', response.data);
+      if (response.status == 200) {
+        Alert.alert('Success!', 'Game created Succesfully', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => navigation.goBack()},
+        ]);
+
+        setSport('');
+        setArea('');
+        setDate('');
+        setTimeInterval('');
+      }
+    } catch (error) {
+      console.log('eror creategame', error);
+    }
+  };
 
   const generateDates = () => {
     const dates = [];
@@ -71,7 +117,7 @@ const CreateActivity = () => {
     return dates;
   };
 
-  const selectDate = date => {
+  const selectDate = (date) => {
     setModalVisible(false);
     setDate(date);
   };
@@ -320,7 +366,7 @@ const CreateActivity = () => {
                 <View>
                   <TextInput
                     value={noOfPlayers}
-                    onChangeText={setnoOfPlayers}
+                    onChangeText={(text) => setnoOfPlayers(Number(text))}
                     style={{
                       padding: 10,
                       backgroundColor: 'white',
@@ -429,6 +475,26 @@ const CreateActivity = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
+      <Pressable
+        style={{
+          backgroundColor: '#07bc0c',
+          marginTop: 'auto',
+          marginBottom: 30,
+          padding: 12,
+          marginHorizontal: 10,
+          borderRadius: 4,
+        }}
+        onPress={createGame}>
+        <Text
+          style={{
+            textAlign: 'center',
+            color: 'white',
+            fontSize: 15,
+            fontWeight: '500',
+          }}>
+          Create Activity
+        </Text>
+      </Pressable>
       <Modal
         visible={modalVisible}
         animationType="slide"
@@ -567,3 +633,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+
+

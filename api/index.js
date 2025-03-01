@@ -583,3 +583,27 @@ const venues = [
         res.status(500).json({message:'Faild to fetch venures'})
     }
   })
+
+  app.post('/creategame',async(req,res)=>{
+    try {
+        const {sport,area,time,admin,totalPlayers,date}=req.body;
+
+        const activityAccess='Public'
+        const newGame= new Game({
+            sport,
+            area,
+            date,
+            time,
+            admin,
+            totalPlayers,
+            players:[admin],
+
+        });
+        const savedGame= await newGame.save();
+        res.status(200).json(savedGame);
+
+    } catch (error) {
+        console.log('createGame Error',error)
+        res.status(500).json({message:'failed to create game'})
+    }
+  })

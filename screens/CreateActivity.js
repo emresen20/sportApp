@@ -35,6 +35,12 @@ const CreateActivity = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const route = useRoute();
 
+  useEffect(()=>{
+    if(route?.params?.timeInterval){
+        setTimeInterval(route?.params?.timeInterval)
+    }
+  },[route?.params])
+
   useEffect(() => {
     if (route?.params?.taggedVenue) {
       setTaggedVenue(route?.params?.taggedVenue);

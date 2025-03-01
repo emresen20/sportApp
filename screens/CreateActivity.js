@@ -80,7 +80,7 @@ const CreateActivity = () => {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'OK', onPress: () => navigation.goBack()},
+          {text: 'OK', onPress: () => navigation.navigate('Main', { screen: 'Play' })},
         ]);
 
         setSport('');

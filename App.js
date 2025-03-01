@@ -35,11 +35,13 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import StackNavigator from './navigation/StackNavigator';
 import {AuthProvider} from './AuthContext';
+import {ModalPortal} from 'react-native-modals';
 
 const App = () => {
   return (
     <AuthProvider>
       <StackNavigator />
+      <ModalPortal/>
     </AuthProvider>
   );
 };

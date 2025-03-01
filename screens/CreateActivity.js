@@ -1,4 +1,5 @@
 import {
+  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -19,6 +20,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {SlideAnimation} from 'react-native-modals';
 import {BottomModal} from 'react-native-modals';
 import {ModalContent} from 'react-native-modals';
+import moment from 'moment';
 
 const CreateActivity = () => {
   const navigation = useNavigation();
@@ -39,7 +41,36 @@ const CreateActivity = () => {
     }
   }, [route?.params]);
 
+  const generateDates = () => {
+    const dates = [];
+    for (let i = 0; i < 10; i++) {
+      const date = moment().add(i, 'days');
+      let displayDate;
+      if (i === 0) {
+        displayDate = 'Today';
+      } else if (i === 1) {
+        displayDate = 'Tomorrow';
+      } else if (i === 2) {
+        displayDate = 'Day after';
+      } else {
+        displayDate = date.format('Do MMMM');
+      }
+      dates.push({
+        id: i.toString(),
+        displayDate,
+        dayOfWeek: date.format('ddd'),
+        actualDate: date.format('Do MMMM'),
+      });
+    }
+    return dates;
+  };
 
+  const selectDate = date => {
+    setModalVisible(false);
+    setDate(date);
+  };
+  const dates = generateDates();
+  console.log(dates);
   return (
     <>
       <SafeAreaView
@@ -392,13 +423,141 @@ const CreateActivity = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      <BottomModal>
-        
-      </BottomModal>
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}>
+        {/* Arka planı karartma alanı */}
+        <Pressable
+          style={styles.overlay}
+          onPress={() => setModalVisible(false)} // Boş alana basınca kapat
+        >
+          {/* Aşağıdan gelen içerik alanı */}
+          <View style={styles.bottomSheet}>
+            <Text style={styles.title}>Choose date/time to rehost</Text>
+
+            <View style={styles.dateContainer}>
+              {dates?.map((item, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => selectDate(item?.actualDate)}
+                  style={styles.dateItem}>
+                  <Text>{item?.displayDate}</Text>
+                  <Text style={{color: 'gray', marginTop: 8}}>
+                    {item?.dayOfWeek}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+
+            {/* Kapatma butonu */}
+            <Pressable
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>Close</Text>
+            </Pressable>
+          </View>
+        </Pressable>
+      </Modal>
+
+      {/* <BottomModal
+        onBackdropPress={() => setModalVisible(!modalVisible)}
+        swipeDirection={['up', 'down']}
+        swipeThreshold={200}
+        modalAnimation={
+          new SlideAnimation({
+            slideFrom: 'bottom',
+          })
+        }
+        onHardwareBackPress={() => setModalVisible(!modalVisible)}
+        visible={modalVisible}
+        onTouchOutside={() => setModalVisible(!modalVisible)}>
+        <ModalContent
+          style={{width: '100%', height: 400, backgroundColor: 'white'}}>
+          <View>
+            <Text
+              style={{textAlign: 'center', fontSize: 16, fontWeight: 'bold'}}>
+              Choose date/ time to rehost
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 15,
+                flexWrap: 'wrap',
+                marginVertical: 20,
+              }}>
+              {dates.map((item, index) => (
+                <Pressable
+                  onPress={() => selectDate(item?.actualDate)}
+                  key={index}
+                  style={{
+                    padding: 10,
+                    borderRadius: 10,
+                    borderColor: '#E0E0E0',
+                    borderWidth: 1,
+                    width: '30%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text>{item?.displayDate}</Text>
+                  <Text style={{color: 'gray', marginTop: 8}}>
+                    {item?.dayOfWeek}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        </ModalContent>
+      </BottomModal> */}
     </>
   );
 };
 
 export default CreateActivity;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end', // Alt kısımdan açılmasını sağlar
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  bottomSheet: {
+    width: '100%',
+    backgroundColor: 'white',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    padding: 20,
+    maxHeight: '60%', // Ekranın max %60'ı kadar açılır
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 15,
+    justifyContent: 'center',
+  },
+  dateItem: {
+    padding: 10,
+    borderRadius: 10,
+    borderColor: '#E0E0E0',
+    borderWidth: 1,
+    width: '30%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  closeButton: {
+    backgroundColor: 'black',
+    padding: 12,
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 20,
+  },
+});

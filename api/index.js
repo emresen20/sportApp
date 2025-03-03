@@ -666,6 +666,7 @@ app.post('/creategame', async (req, res) => {
 // });
 
 app.get('/games', async (req, res) => {
+  //yaklaşan tüm maçlar
   try {
     const games = await Game.find({})
       .populate('admin')
@@ -679,7 +680,7 @@ app.get('/games', async (req, res) => {
       const gameTime = game.time.split(' - ')[0];
       const gameDateTime = moment(
         `${gameDate.format('YYYY-MM-DD')} ${gameTime}`,
-        'YYYY-MM-DD h:mm A'
+        'YYYY-MM-DD h:mm A',
       );
 
       return gameDateTime.isAfter(currentDate);
@@ -688,12 +689,16 @@ app.get('/games', async (req, res) => {
     // 📌 Oyunları en yakın tarihe göre sırala
     filteredGames.sort((a, b) => {
       const gameDateTimeA = moment(
-        `${moment(a.date, 'Do MMMM').format('YYYY-MM-DD')} ${a.time.split(' - ')[0]}`,
-        'YYYY-MM-DD h:mm A'
+        `${moment(a.date, 'Do MMMM').format('YYYY-MM-DD')} ${
+          a.time.split(' - ')[0]
+        }`,
+        'YYYY-MM-DD h:mm A',
       );
       const gameDateTimeB = moment(
-        `${moment(b.date, 'Do MMMM').format('YYYY-MM-DD')} ${b.time.split(' - ')[0]}`,
-        'YYYY-MM-DD h:mm A'
+        `${moment(b.date, 'Do MMMM').format('YYYY-MM-DD')} ${
+          b.time.split(' - ')[0]
+        }`,
+        'YYYY-MM-DD h:mm A',
       );
       return gameDateTimeA - gameDateTimeB; // En yakın tarih başta
     });
@@ -715,12 +720,59 @@ app.get('/games', async (req, res) => {
       isBooked: game.isBooked,
       adminName: `${game.admin.firstName} ${game.admin.lastName}`,
       adminUrl: game.admin.image,
-      matchFull: game.matchFull
+      matchFull: game.matchFull,
     }));
 
     res.json(formattedGames);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Failed to fetch games' });
+    res.status(500).json({message: 'Failed to fetch games'});
+  }
+});
+
+app.get('/upcoming', async (req, res) => {
+  //belirli bir kullanıcının maçları
+  try {
+    const userId = req.query.userId; // Assuming you have user authentication and req.user contains the authenticated user's info
+
+    console.log('userId', userId);
+
+    // Fetch games where the user is either the admin or a player
+    const games = await Game.find({
+      $or: [
+        {admin: userId}, // Check if the user is the admin
+        {players: userId}, // Check if the user is in the players list
+      ],
+    })
+      .populate('admin')
+      .populate('players', 'image firstName lastName');
+
+    // Format games with the necessary details
+    const formattedGames = games.map(game => ({
+      _id: game._id,
+      sport: game.sport,
+      date: game.date,
+      time: game.time,
+      area: game.area,
+      players: game.players.map(player => ({
+        _id: player._id,
+        imageUrl: player.image, // Player's image URL
+        name: `${player.firstName} ${player.lastName}`, // Optional: Player's name
+      })),
+      totalPlayers: game.totalPlayers,
+      queries: game.queries,
+      requests: game.requests,
+      isBooked: game.isBooked,
+      courtNumber: game.courtNumber,
+      adminName: `${game.admin.firstName} ${game.admin.lastName}`,
+      adminUrl: game.admin.image, // Assuming the URL is stored in the image field
+      isUserAdmin: game.admin._id.toString() === userId,
+      matchFull: game.matchFull,
+    }));
+
+    res.json(formattedGames);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({message: 'Failed to fetch upcoming games'});
   }
 });

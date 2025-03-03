@@ -8,7 +8,7 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -18,12 +18,16 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import Game from './components/Game';
+import {AuthContext} from '../AuthContext';
+import UpcomingGame from './components/UpcomingGame';
 
 const PlayScreen = ({props}) => {
   const [option, setOption] = useState('Calendar');
   const [sport, setSport] = useState('Badminton');
   const navigation = useNavigation();
   const [games, setGames] = useState([]);
+  const {userId} = useContext(AuthContext);
+  const [upcomingGames, setUpcomingGames] = useState([]);
 
   useEffect(() => {
     fetchGames();
@@ -38,7 +42,24 @@ const PlayScreen = ({props}) => {
     }
   };
 
-  console.log('games', games);
+  useEffect(() => {
+    if (userId) {
+      fetchUpcomingGames();
+    }
+  }, [userId]);
+
+  const fetchUpcomingGames = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/upcoming?userId=${userId}`,
+      );
+      setUpcomingGames(response.data)
+    } catch (error) {
+      console.log('fetchUpcoming', error);
+    }
+  };
+
+  console.log('upcomingGames', upcomingGames);
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>
@@ -202,10 +223,20 @@ const PlayScreen = ({props}) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={games}
-          contentContainerStyle={{ paddingBottom: 200 }}
+          contentContainerStyle={{paddingBottom: 200}}
           keyExtractor={item => item._id}
           renderItem={({item}) => <Game item={item} />}
         />
+      )}
+
+      {option == 'Calendar' &&(
+           <FlatList
+           showsVerticalScrollIndicator={false}
+           data={games}
+           contentContainerStyle={{paddingBottom: 200}}
+           keyExtractor={item => item._id}
+           renderItem={({item}) => <UpcomingGame item={item} />}
+         />
       )}
     </SafeAreaView>
   );

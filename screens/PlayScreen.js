@@ -7,7 +7,7 @@ import {
   Pressable,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -15,11 +15,28 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const PlayScreen = ({props}) => {
   const [option, setOption] = useState('Calendar');
   const [sport, setSport] = useState('Badminton');
   const navigation= useNavigation();
+  const [games,setGames]=useState([])
+
+  useEffect(()=>{
+    fetchGames();
+  },[])
+
+  const fetchGames= async()=>{
+    try {
+      const response=await axios.get('http://localhost:8000/games');
+      setGames(response.data)
+    } catch (error) {
+      console.log('fetch games',error)
+    }
+  }
+
+  console.log('games',games)
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>

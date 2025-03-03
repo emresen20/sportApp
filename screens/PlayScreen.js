@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,29 +15,30 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
+import Game from './components/Game';
 
 const PlayScreen = ({props}) => {
   const [option, setOption] = useState('Calendar');
   const [sport, setSport] = useState('Badminton');
-  const navigation= useNavigation();
-  const [games,setGames]=useState([])
+  const navigation = useNavigation();
+  const [games, setGames] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchGames();
-  },[])
+  }, []);
 
-  const fetchGames= async()=>{
+  const fetchGames = async () => {
     try {
-      const response=await axios.get('http://localhost:8000/games');
-      setGames(response.data)
+      const response = await axios.get('http://localhost:8000/games');
+      setGames(response.data);
     } catch (error) {
-      console.log('fetch games',error)
+      console.log('fetch games', error);
     }
-  }
+  };
 
-  console.log('games',games)
+  console.log('games', games);
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>
@@ -181,20 +183,30 @@ const PlayScreen = ({props}) => {
       </View>
 
       <View style={styles.createView}>
-        <Pressable onPress={()=> navigation.navigate('Create')}>
-            <Text style={{fontWeight:'bold'}}>Create Game</Text>
+        <Pressable onPress={() => navigation.navigate('Create')}>
+          <Text style={{fontWeight: 'bold'}}>Create Game</Text>
         </Pressable>
 
-        <View style={{flexDirection:'row', alignItems:'center',gap:hp('1.2')}}>
-            <Pressable>
-                <Text style={{fontWeight:'bold'}}>Filter</Text>
-            </Pressable>
+        <View
+          style={{flexDirection: 'row', alignItems: 'center', gap: hp('1.2')}}>
+          <Pressable>
+            <Text style={{fontWeight: 'bold'}}>Filter</Text>
+          </Pressable>
 
-            <Pressable>
-                <Text style={{fontWeight:'bold'}}>Sort</Text>
-            </Pressable>
+          <Pressable>
+            <Text style={{fontWeight: 'bold'}}>Sort</Text>
+          </Pressable>
         </View>
       </View>
+      {option == 'My Sports' && (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={games}
+          contentContainerStyle={{ paddingBottom: 200 }}
+          keyExtractor={item => item._id}
+          renderItem={({item}) => <Game item={item} />}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -220,11 +232,11 @@ const styles = StyleSheet.create({
     fontSize: hp('1.8'),
     color: selectedoption == optionName ? '#12e04c' : 'white',
   }),
-  createView:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    padding:hp('1.4'),
-    backgroundColor:'white'
-  }
+  createView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: hp('1.4'),
+    backgroundColor: 'white',
+  },
 });

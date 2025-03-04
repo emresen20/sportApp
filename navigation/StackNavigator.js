@@ -21,6 +21,7 @@ import {AuthContext} from '../AuthContext';
 import CreateActivity from '../screens/CreateActivity';
 import TagVenueScreen from '../screens/TagVenueScreen';
 import SelectTimeScreen from '../screens/SelectTimeScreen';
+import GamesSetUpScreen from '../screens/GamesSetUpScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -156,9 +157,9 @@ const StackNavigator = () => {
           component={VenueInfoScreen}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Create"
-          getId={()=>"myId"} //önemli stateler güncellenmesin isteniyorsa
+          getId={() => 'myId'} //önemli stateler güncellenmesin isteniyorsa
           component={CreateActivity}
           options={{headerShown: false}}
         />
@@ -167,13 +168,13 @@ const StackNavigator = () => {
           component={TagVenueScreen}
           options={{headerShown: false}}
         />
-         <Stack.Screen
-          name="Time"
-          component={SelectTimeScreen}
-        
+        <Stack.Screen name="Time" component={SelectTimeScreen} />
+        <Stack.Screen
+          name="Game"
+          component={GamesSetUpScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
-      
     );
   }
 

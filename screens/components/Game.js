@@ -2,15 +2,17 @@ import {View, Text, Pressable, Image} from 'react-native';
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const Game = ({item}) => {
+    const navigation=useNavigation();
   return (
     <Pressable
-    // onPress={() =>
-    //   navigation.navigate('Game', {
-    //     item: item,
-    //   })
-    // }
+    onPress={() =>
+      navigation.navigate('Game', {
+        item: item,
+      })
+    }
     style={{
       marginVertical: 10,
       marginHorizontal: 14,

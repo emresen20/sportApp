@@ -16,6 +16,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const GamesSetUpScreen = () => {
   const route = useRoute();
+  console.log('route',route.params)
   return (
     <SafeAreaView>
       <ScrollView>
@@ -207,7 +208,51 @@ const GamesSetUpScreen = () => {
           </View>
         </View>
 
-        
+        {route?.params?.item?.isUserAdmin == true ? (
+          <View>
+            <View
+              style={{
+                height: 1,
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+                marginVertical: 12,
+              }}
+            />
+            <Pressable
+              style={{flexDirection: 'row', alignItems: 'center', gap: 14}}>
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0',
+                  borderRadius: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{width: 30, height: 30, resizeMode: 'contain'}}
+                  source={{
+                    uri: 'https://cdn-icons-png.flaticon.com/128/343/343303.png',
+                  }}
+                />
+              </View>
+
+              <Text style={{fontSize: 15, fontWeight: '500', flex: 1}}>
+                Add Co-Host
+              </Text>
+
+              <MaterialCommunityIcons
+                style={{textAlign: 'center'}}
+                name="chevron-right"
+                size={24}
+                color="black"
+              />
+            </Pressable>
+          </View>
+        ) : (
+          <View></View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

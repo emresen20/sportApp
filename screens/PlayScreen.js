@@ -232,7 +232,7 @@ const PlayScreen = ({props}) => {
       {option == 'Calendar' &&(
            <FlatList
            showsVerticalScrollIndicator={false}
-           data={games}
+           data={upcomingGames}
            contentContainerStyle={{paddingBottom: 200}}
            keyExtractor={item => item._id}
            renderItem={({item}) => <UpcomingGame item={item} />}

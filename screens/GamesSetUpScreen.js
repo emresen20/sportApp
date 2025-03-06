@@ -16,7 +16,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const GamesSetUpScreen = () => {
   const route = useRoute();
-  console.log('route',route.params)
+  console.log('route', route.params);
   return (
     <SafeAreaView>
       <ScrollView>
@@ -179,31 +179,40 @@ const GamesSetUpScreen = () => {
             <Text style={{fontWeight: '500'}}>Learn More</Text>
           </View>
 
-          <View style={{marginTop: 12}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              <Text>{route?.params?.item?.adminName}</Text>
+          <View style={{marginVertical: 20, flexDirection: 'row', gap: 10}}>
+            <View>
+              <Image
+                style={{width: 60, height: 60, borderRadius: 30}}
+                source={{uri: route?.params?.item?.adminUrl}}
+              />
+            </View>
+            <View style={{}}>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <Text>{route?.params?.item?.adminName}</Text>
+                <View
+                  style={{
+                    alignSelf: 'flex-start',
+                    paddingHorizontal: 10,
+                    paddingVertical: 6,
+                    backgroundColor: '#E0E0E0',
+                    borderRadius: 8,
+                  }}>
+                  <Text>Host</Text>
+                </View>
+              </View>
               <View
                 style={{
-                  alignSelf: 'flex-start',
                   paddingHorizontal: 10,
-                  paddingVertical: 6,
-                  backgroundColor: '#E0E0E0',
-                  borderRadius: 8,
+                  paddingVertical: 5,
+                  marginTop: 10,
+                  borderRadius: 20,
+                  borderColor: 'orange',
+                  borderWidth: 1,
+                  alignSelf: 'flex-start',
                 }}>
-                <Text>Host</Text>
+                <Text>INTERMEDIATE</Text>
               </View>
-            </View>
-            <View
-              style={{
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                marginTop: 10,
-                borderRadius: 20,
-                borderColor: 'orange',
-                borderWidth: 1,
-                alignSelf: 'flex-start',
-              }}>
-              <Text>INTERMEDIATE</Text>
             </View>
           </View>
         </View>
@@ -249,6 +258,124 @@ const GamesSetUpScreen = () => {
                 color="black"
               />
             </Pressable>
+
+            <View
+              style={{
+                height: 1,
+                borderWidth: 1,
+                borderColor: '#E0E0E0',
+                marginVertical: 12,
+              }}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Pressable>
+                <Pressable
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: '#E0E0E0',
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginHorizontal:5
+                  }}>
+                  <Image
+                    style={{
+                      width: 30,
+                      height: 30,
+                      resizeMode: 'contain',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    source={{
+                      uri: 'https://cdn-icons-png.flaticon.com/128/1474/1474545.png',
+                    }}
+                  />
+                </Pressable>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontWeight: '500',
+                    textAlign: 'center',
+                  }}>
+                  Add
+                </Text>
+              </Pressable>
+              <Pressable>
+                <Pressable
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: '#E0E0E0',
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginHorizontal:5
+                  }}>
+                  <Image
+                    style={{
+                      width: 30,
+                      height: 30,
+                      resizeMode: 'contain',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    source={{
+                      uri: 'https://cdn-icons-png.flaticon.com/128/1474/1474545.png',
+                    }}
+                  />
+                </Pressable>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontWeight: '500',
+                    textAlign: 'center',
+                  }}>
+                  Add
+                </Text>
+              </Pressable>
+              <Pressable>
+                <Pressable
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: '#E0E0E0',
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginHorizontal:5
+                  }}>
+                  <Image
+                    style={{
+                      width: 30,
+                      height: 30,
+                      resizeMode: 'contain',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    source={{
+                      uri: 'https://cdn-icons-png.flaticon.com/128/1474/1474545.png',
+                    }}
+                  />
+                </Pressable>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontWeight: '500',
+                    textAlign: 'center',
+                  }}>
+                  Add
+                </Text>
+              </Pressable>
+            </View>
           </View>
         ) : (
           <View></View>

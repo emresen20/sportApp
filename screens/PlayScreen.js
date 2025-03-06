@@ -7,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -28,6 +29,7 @@ const PlayScreen = ({props}) => {
   const [games, setGames] = useState([]);
   const {userId} = useContext(AuthContext);
   const [upcomingGames, setUpcomingGames] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchGames();
@@ -35,10 +37,13 @@ const PlayScreen = ({props}) => {
 
   const fetchGames = async () => {
     try {
+      setLoading(true);
       const response = await axios.get('http://localhost:8000/games');
       setGames(response.data);
     } catch (error) {
       console.log('fetch games', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,7 +58,7 @@ const PlayScreen = ({props}) => {
       const response = await axios.get(
         `http://localhost:8000/upcoming?userId=${userId}`,
       );
-      setUpcomingGames(response.data)
+      setUpcomingGames(response.data);
     } catch (error) {
       console.log('fetchUpcoming', error);
     }
@@ -219,24 +224,40 @@ const PlayScreen = ({props}) => {
           </Pressable>
         </View>
       </View>
-      {option == 'My Sports' && (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={games}
-          contentContainerStyle={{paddingBottom: 200}}
-          keyExtractor={item => item._id}
-          renderItem={({item}) => <Game item={item} />}
-        />
-      )}
+      {loading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+            marginVertical:200
+          }}>
+          <ActivityIndicator size="large" color="#12e04c" />
+          <Text style={{color: 'gray'}}>Loading..</Text>
+        </View>
+      ) : (
+        <>
+          {option == 'My Sports' && (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={games}
+              contentContainerStyle={{paddingBottom: 200}}
+              keyExtractor={item => item._id}
+              renderItem={({item}) => <Game item={item} />}
+            />
+          )}
 
-      {option == 'Calendar' &&(
-           <FlatList
-           showsVerticalScrollIndicator={false}
-           data={upcomingGames}
-           contentContainerStyle={{paddingBottom: 200}}
-           keyExtractor={item => item._id}
-           renderItem={({item}) => <UpcomingGame item={item} />}
-         />
+          {option == 'Calendar' && (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={upcomingGames}
+              contentContainerStyle={{paddingBottom: 200}}
+              keyExtractor={item => item._id}
+              renderItem={({item}) => <UpcomingGame item={item} />}
+            />
+          )}
+        </>
       )}
     </SafeAreaView>
   );

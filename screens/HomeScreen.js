@@ -7,18 +7,24 @@ import {
   Pressable,
   ImageBackground,
 } from 'react-native';
-import React, {useLayoutEffect} from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { AuthContext } from '../AuthContext';
+import axios from 'axios';
 
 const HomeScreen = () => {
+  const route=useRoute();
+  const {userId}=useContext(AuthContext);
+  const [user,setUser]=useState(null);
   const navigation = useNavigation();
+  console.log('userHGome',user)
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '',
@@ -35,7 +41,7 @@ const HomeScreen = () => {
           <Pressable>
             <Image
               source={{
-                uri: 'https://lh3.googleusercontent.com/a/ACg8ocJJo_bZya4l3sXsEq0-34iEFzIKuSthszhBrNKVfZteK7nI84BW=s576-c-no',
+                uri: user?.user?.image,
               }}
               style={styles.profileleftimage}
             />
@@ -43,7 +49,7 @@ const HomeScreen = () => {
         </View>
       ),
     });
-  });
+  },[user]);
 
   const data = [
     {
@@ -75,6 +81,18 @@ const HomeScreen = () => {
       description: 'Show more',
     },
   ];
+
+  useEffect(()=>{
+    if(userId){
+      fetchUser();
+    }
+  },[userId])
+
+  const fetchUser= async ()=>{
+    console.log('userid',userId)
+    const response = await axios.get(`http://localhost:8000/user/${userId}`);
+    setUser(response.data)
+  }
 
   return (
     <ScrollView style={styles.scroll}>

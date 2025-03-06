@@ -803,3 +803,33 @@ app.post('/games/:gameId/request', async (req, res) => {
     res.status(500).json({message: 'Failed to send req'});
   }
 });
+
+app.get('/games/:gameId/requests',async(req,res)=>{
+  try {
+    const {gameId}= req.params;
+    const game= await Game.findById(gameId).populate({ //populate() kullanarak requests.userId içindeki kullanıcı bilgilerini çeker.
+      path:'requests.userId',
+      select:'email firstName lastName image skill noOfGames playpals sports'
+    })
+    if(!game){
+      return res.status(404).json,({message:'Game not found'});
+    };
+    const requestsWithUserInfo = game.requests.map(request => ({
+      userId: request.userId._id,
+      email: request.userId.email,
+      firstName: request.userId.firstName,
+      lastName: request.userId.lastName,
+      image: request.userId.image,
+      skill: request.userId.skill,
+      noOfGames: request.userId.noOfGames,
+      playpals: request.userId.playpals,
+      sports: request.userId.sports,
+      comment: request.comment,
+    }));
+
+    res.json(requestsWithUserInfo);
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({message: 'Failed to get req'});
+  }
+})

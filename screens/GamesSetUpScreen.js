@@ -23,7 +23,7 @@ const GamesSetUpScreen = () => {
         <View
           style={{
             padding: 10,
-            backgroundColor: '#294461',
+            backgroundColor: '#red',
             paddingBottom: 20,
           }}>
           <View

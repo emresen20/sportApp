@@ -207,7 +207,7 @@ const HomeScreen = () => {
             <Text style={{fontWeight: 'bold'}}>Game Time Activities</Text>
 
             <Text style={{marginTop: hp('1.2'), color: 'gray'}}>
-              355 Playo hosted games
+              555 Playo hosted games
             </Text>
           </View>
         </View>

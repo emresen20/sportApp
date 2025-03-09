@@ -16,6 +16,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/user');
 const Game = require('./models/game');
 const Venue = require('./models/venue');
+const game = require('./models/game');
 
 mongoose
   .connect(
@@ -743,9 +744,12 @@ app.get('/upcoming', async (req, res) => {
         {admin: userId}, // Check if the user is the admin
         {players: userId}, // Check if the user is in the players list
       ],
-    })
-      .populate('admin')
-      .populate('players', 'image firstName lastName');
+    }).populate({
+      path: 'admin',
+      select: 'firstName lastName image',
+    });
+
+    
 
     // Format games with the necessary details
     const formattedGames = games.map(game => ({
@@ -766,10 +770,10 @@ app.get('/upcoming', async (req, res) => {
       courtNumber: game.courtNumber,
       adminName: `${game.admin.firstName} ${game.admin.lastName}`,
       adminUrl: game.admin.image, // Assuming the URL is stored in the image field
-      isUserAdmin: game.admin._id.toString() === userId,
+      isUserAdmin: game.admin?._id?.toString() === userId?.toString(),
       matchFull: game.matchFull,
     }));
-
+   
     res.json(formattedGames);
   } catch (err) {
     console.error(err);
@@ -804,16 +808,17 @@ app.post('/games/:gameId/request', async (req, res) => {
   }
 });
 
-app.get('/games/:gameId/requests',async(req,res)=>{
+app.get('/games/:gameId/requests', async (req, res) => {
   try {
-    const {gameId}= req.params;
-    const game= await Game.findById(gameId).populate({ //populate() kullanarak requests.userId içindeki kullanıcı bilgilerini çeker.
-      path:'requests.userId',
-      select:'email firstName lastName image skill noOfGames playpals sports'
-    })
-    if(!game){
-      return res.status(404).json,({message:'Game not found'});
-    };
+    const {gameId} = req.params;
+    const game = await Game.findById(gameId).populate({
+      //populate() kullanarak requests.userId içindeki kullanıcı bilgilerini çeker.
+      path: 'requests.userId',
+      select: 'email firstName lastName image skill noOfGames playpals sports',
+    });
+    if (!game) {
+      return res.status(404).json, {message: 'Game not found'};
+    }
     const requestsWithUserInfo = game.requests.map(request => ({
       userId: request.userId._id,
       email: request.userId.email,
@@ -832,20 +837,20 @@ app.get('/games/:gameId/requests',async(req,res)=>{
     console.error(err);
     res.status(500).json({message: 'Failed to get req'});
   }
-})
+});
 
-app.get('/user/:userId', async (req,res)=>{
+app.get('/user/:userId', async (req, res) => {
   try {
-    const {userId}=req.params;
-    const user= await User.findById(userId);
+    const {userId} = req.params;
+    const user = await User.findById(userId);
 
-    if(!user){
-      return res.status(200).json({message:'User not found'})
+    if (!user) {
+      return res.status(200).json({message: 'User not found'});
     }
 
-    return res.status(200).json({user})
+    return res.status(200).json({user});
   } catch (error) {
     console.error(err);
     res.status(500).json({message: 'Failed to fetch user'});
   }
-})
+});

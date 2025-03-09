@@ -9,14 +9,14 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import Game from './components/Game';
 import {AuthContext} from '../AuthContext';
@@ -28,13 +28,15 @@ const PlayScreen = ({props}) => {
   const navigation = useNavigation();
   const [games, setGames] = useState([]);
   const {userId} = useContext(AuthContext);
-  const [upcomingGames, setUpcomingGames] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [UpcomingGames, setUpcomingGames] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     fetchGames();
   }, []);
 
+  console.log('games',games)
   const fetchGames = async () => {
     try {
       setLoading(true);
@@ -55,16 +57,56 @@ const PlayScreen = ({props}) => {
 
   const fetchUpcomingGames = async () => {
     try {
+      console.log('myysdyfydyfdf', userId);
       const response = await axios.get(
         `http://localhost:8000/upcoming?userId=${userId}`,
       );
       setUpcomingGames(response.data);
     } catch (error) {
-      console.log('fetchUpcoming', error);
+      console.error('Failed to fetch upcoming games:', error);
     }
   };
 
-  console.log('upcomingGames', upcomingGames);
+
+  // console.log('upcomingGames', UpcomingGames);
+  // useEffect(() => {
+  //   fetchGames();
+  // }, []);
+
+  // console.log('games', games);
+
+  // const fetchGames = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8000/games');
+  //     setGames(response.data);
+  //   } catch (error) {
+  //     console.error('Failed to fetch games:', error);
+  //     // Handle error
+  //   }
+  // };
+
+  // // console.log('games', games);
+
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchUpcomingGames();
+  //   }
+  // }, [userId]);
+  // const fetchUpcomingGames = async () => {
+  //   try {
+  //     console.log('myysdyfydyfdf', userId);
+  //     const response = await axios.get(
+  //       `http://localhost:8000/upcoming?userId=${userId}`,
+  //     );
+  //     setUpcomingGames(response.data);
+  //   } catch (error) {
+  //     console.error('Failed to fetch upcoming games:', error);
+  //   }
+  // };
+
+  // console.log(UpcomingGames);
+  // // const filteredGames = games?.filter(game => game.sport === sport);
+
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>
@@ -251,7 +293,7 @@ const PlayScreen = ({props}) => {
           {option == 'Calendar' && (
             <FlatList
               showsVerticalScrollIndicator={false}
-              data={upcomingGames}
+              data={UpcomingGames}
               contentContainerStyle={{paddingBottom: 200}}
               keyExtractor={item => item._id}
               renderItem={({item}) => <UpcomingGame item={item} />}

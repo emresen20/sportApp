@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const Game = ({item}) => {
     const navigation=useNavigation();
+    console.log('item',item)
   return (
     <Pressable
     onPress={() =>

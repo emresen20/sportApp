@@ -53,7 +53,7 @@ const UpComingGame = ({item}) => {
               flexWrap: 'wrap', // Allow text to wrap if it overflows
               marginBottom: 6,
             }}>
-            {item?.adminName}'s Badminton Game
+            {item?.adminName}'s {item?.sport}
           </Text>
 
           <Text

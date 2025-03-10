@@ -1,29 +1,61 @@
 import {
+  Alert,
   Image,
+  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
+import {AuthContext} from '../AuthContext';
 
 const GamesSetUpScreen = () => {
   const route = useRoute();
   const [modalVisiable, setModalVisiable] = useState(false);
+  const [comment, setComment] = useState('');
+  const {userId} = useContext(AuthContext);
+
+  console.log('itemddeem',route?.params?.item);
+
   const userRequested = route?.params?.item.requests.some(
     request => request.userId === userId,
   );
+  const sendJoinRequest = async gameId => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/games/${gameId}/request`,
+        {userId, comment},
+      );
+
+      if (response.status == 200) {
+        Alert.alert('Request Sent', 'please wait for the host to accept!', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => setModalVisiable(false)},
+        ]);
+      }
+      console.log('Request sent successfully:', response.data);
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
   console.log('route', route?.params?.item?.isUserAdmin);
   return (
     <>
-      <SafeAreaView style={{flex:1}}>
+      <SafeAreaView style={{flex: 1}}>
         <ScrollView>
           <View
             style={{
@@ -196,7 +228,9 @@ const GamesSetUpScreen = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              <Text style={{fontSize: 16, fontWeight: '600'}}>Players {route?.params?.item?.players.length} </Text>
+              <Text style={{fontSize: 16, fontWeight: '600'}}>
+                Players {route?.params?.item?.players.length}{' '}
+              </Text>
 
               <Ionicons name="earth" size={24} color="gray" />
             </View>
@@ -520,11 +554,11 @@ const GamesSetUpScreen = () => {
               </View>
             </View>
           </View>
-        
         </ScrollView>
       </SafeAreaView>
 
       {route?.params?.item?.isUserAdmin == true ? (
+       
         <Pressable
           style={{
             backgroundColor: '#07bc0c',
@@ -593,7 +627,7 @@ const GamesSetUpScreen = () => {
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => setModalVisiable(!modalVisiable)}
             style={{
               backgroundColor: '#07bc0c',
               marginTop: 'auto',
@@ -616,11 +650,127 @@ const GamesSetUpScreen = () => {
         </View>
       )}
 
-  
+      <Modal
+        visible={modalVisiable}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalVisiable(false)}>
+        {/* Arka planı karartma alanı */}
+        <Pressable
+          style={styles.overlay}
+          onPress={() => setModalVisiable(false)} // Boş alana basınca kapat
+        >
+          {/* Aşağıdan gelen içerik alanı */}
+          <View style={styles.bottomSheet}>
+            {/* Kapatma butonu */}
+            <View>
+              <Text style={{fontSize: 15, fontWeight: '500', color: 'gray'}}>
+                Join Game
+              </Text>
+              <Text style={{marginTop: 25, color: 'gray'}}>
+                {route?.params?.item?.adminName} has been putting efforts to
+                organize this game. Please send the request if you are quite
+                sure to attend
+              </Text>
+              <View
+                style={{
+                  borderColor: '#E0E0E0',
+                  borderWidth: 1,
+                  padding: 10,
+                  borderRadius: 10,
+                  height: 200,
+                  marginTop: 20,
+                }}>
+                <TextInput
+                  value={comment}
+                  // multiline
+                  onChangeText={text => setComment(text)}
+                  style={{
+                    fontFamily: 'Helvetica',
+                    fontSize: comment ? 17 : 17,
+                  }}
+                  placeholder="Send a message to the host along with your request!"
+                  //   placeholderTextColor={"black"}
+                />
+                <Pressable
+                  onPress={() => sendJoinRequest(route?.params?.item?._id)}
+                  style={{
+                    marginTop: 'auto',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 15,
+                    backgroundColor: 'green',
+                    borderRadius: 5,
+                    justifyContent: 'center',
+                    padding: 10,
+                  }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      textAlign: 'center',
+                      fontSize: 15,
+                      fontWeight: '500',
+                    }}>
+                    Send Request
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+            <Pressable
+              style={styles.closeButton}
+              onPress={() => setModalVisiable(false)}>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>Close</Text>
+            </Pressable>
+          </View>
+        </Pressable>
+      </Modal>
     </>
   );
 };
 
 export default GamesSetUpScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end', // Alt kısımdan açılmasını sağlar
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  bottomSheet: {
+    width: '100%',
+    backgroundColor: 'white',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    padding: 20,
+    maxHeight: '60%', // Ekranın max %60'ı kadar açılır
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 15,
+    justifyContent: 'center',
+  },
+  dateItem: {
+    padding: 10,
+    borderRadius: 10,
+    borderColor: '#E0E0E0',
+    borderWidth: 1,
+    width: '30%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  closeButton: {
+    backgroundColor: 'black',
+    padding: 12,
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 20,
+  },
+});

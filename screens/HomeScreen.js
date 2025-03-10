@@ -24,7 +24,7 @@ const HomeScreen = () => {
   const {userId}=useContext(AuthContext);
   const [user,setUser]=useState(null);
   const navigation = useNavigation();
-  console.log('userHGome',user)
+  console.log('userId',userId)
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '',

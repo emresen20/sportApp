@@ -30,11 +30,22 @@ const PlayScreen = ({props}) => {
   const {userId} = useContext(AuthContext);
   const [UpcomingGames, setUpcomingGames] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+  const [user,setUser]=useState(null);
 
   useEffect(() => {
     fetchGames();
   }, []);
+
+  useEffect(()=>{
+    if(userId){
+      fetchUser();
+    }
+  },[userId])
+  const fetchUser= async ()=>{
+    console.log('userid',userId)
+    const response = await axios.get(`http://localhost:8000/user/${userId}`);
+    setUser(response.data)
+  }
 
   console.log('games',games)
   const fetchGames = async () => {
@@ -124,7 +135,7 @@ const PlayScreen = ({props}) => {
             }}>
             <Text
               style={{fontSize: hp('1.7'), fontWeight: '500', color: 'white'}}>
-              Emre Shen
+              {user?.user?.firstName} {user?.user?.lastName}
             </Text>
             <MaterialIcons
               name="keyboard-arrow-down"
@@ -143,7 +154,7 @@ const PlayScreen = ({props}) => {
             />
             <Image
               source={{
-                uri: 'https://lh3.googleusercontent.com/a/ACg8ocJJo_bZya4l3sXsEq0-34iEFzIKuSthszhBrNKVfZteK7nI84BW=s576-c-no',
+                uri: user?.user?.image,
               }}
               style={styles.profileleftimage}
             />

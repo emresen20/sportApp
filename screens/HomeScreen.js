@@ -30,7 +30,7 @@ const HomeScreen = () => {
       headerTitle: '',
       headerLeft: () => (
         <View>
-          <Text style={{marginLeft: hp('2%')}}>Emre Shen</Text>
+          <Text style={{marginLeft: hp('2%')}}>{user?.user?.firstName} {user?.user?.lastName}</Text>
         </View>
       ),
       headerRight: () => (

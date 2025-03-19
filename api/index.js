@@ -749,8 +749,6 @@ app.get('/upcoming', async (req, res) => {
       select: 'firstName lastName image',
     });
 
-    
-
     // Format games with the necessary details
     const formattedGames = games.map(game => ({
       _id: game._id,
@@ -773,7 +771,7 @@ app.get('/upcoming', async (req, res) => {
       isUserAdmin: game.admin?._id?.toString() === userId?.toString(),
       matchFull: game.matchFull,
     }));
-   
+
     res.json(formattedGames);
   } catch (err) {
     console.error(err);
@@ -852,5 +850,31 @@ app.get('/user/:userId', async (req, res) => {
   } catch (error) {
     console.error(err);
     res.status(500).json({message: 'Failed to fetch user'});
+  }
+});
+
+app.post('/accept', async (req, res) => {
+  try {
+    const {gameId, userId} = req.body;
+
+    const game = await Game.findById(gameId);
+    if (!game) {
+      return res.status(404).json({message: 'game not found'});
+    }
+    game.players.push(userId);
+
+    await Game.findByIdAndUpdate(
+      //requesti kaldırmak için yapıldı
+      gameId,
+      {
+        $pull: {requests: {userId: userId}},
+      },
+      {new: true},
+    );
+    await game.save();
+    res.status(200).json({message: 'Request accepted', game});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Failed to accept req'});
   }
 });

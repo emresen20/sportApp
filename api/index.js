@@ -878,3 +878,19 @@ app.post('/accept', async (req, res) => {
     res.status(500).json({message: 'Failed to accept req'});
   }
 });
+
+app.get('/game/:gameId/players', async (req, res) => {
+  try {
+    const {gameId} = req.params;
+    const game = await Game.findById(gameId).populate('players');
+
+    if (!game) {
+      return res.status(404).json({message: 'Game not found'});
+    }
+
+    res.status(200).json(game.players);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({message: 'Failed to fetch players'});
+  }
+});

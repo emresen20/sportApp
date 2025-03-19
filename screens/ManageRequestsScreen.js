@@ -141,6 +141,105 @@ const ManageRequestsScreen = () => {
                       style={{width: 50, height: 50, borderRadius: 25}}
                       source={{uri: item?.image}}
                     />
+                    <View style={{flex: 1}}>
+                      <Text style={{fontWeight: '600'}}>
+                        {item?.firstName} {item?.lastName}
+                      </Text>
+                      <View
+                        style={{
+                          paddingHorizontal: 10,
+                          paddingVertical: 3,
+                          marginTop: 10,
+                          borderRadius: 20,
+                          borderColor: 'orange',
+                          borderWidth: 1,
+                          alignSelf: 'flex-start',
+                        }}>
+                        <Text style={{fontSize: 13}}>INTERMEDIATE</Text>
+                      </View>
+                    </View>
+                    <View>
+                      <Image
+                        style={{
+                          width: 110,
+                          height: 60,
+                          resizeMode: 'contain',
+                        }}
+                        source={{
+                          uri: 'https://playo-website.gumlet.io/playo-website-v2/logos-icons/new-logo-playo.png?q=50',
+                        }}
+                      />
+                    </View>
+                  </View>
+                  <Text style={{marginTop: 8}}>{item?.comment}</Text>
+                  <View
+                    style={{
+                      height: 1,
+                      borderColor: '#E0E0E0',
+                      borderWidth: 0.7,
+                      marginVertical: 15,
+                    }}
+                  />
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View>
+                      <View
+                        style={{
+                          paddingHorizontal: 10,
+                          paddingVertical: 4,
+                          backgroundColor: '#E0E0E0',
+                          borderRadius: 5,
+                          alignSelf: 'flex-start',
+                        }}>
+                        <Text style={{fontSize: 14, color: 'gray'}}>
+                          0 NO SHOWS
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          marginTop: 10,
+                          fontWeight: 'bold',
+                          textDecorationLine: 'underline',
+                        }}>
+                        See Reputation
+                      </Text>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 12,
+                        
+                      }}>
+                      <Pressable
+                        style={{
+                          padding: 10,
+                          borderRadius: 6,
+                          borderColor: '#E0E0E0',
+                          borderWidth: 1,
+                          width: 100,
+                        }}>
+                        <Text style={{textAlign: 'center'}}>RETIRE</Text>
+                      </Pressable>
+                      <Pressable
+                        //onPress={() => acceptRequest(item.userId)}
+                        style={{
+                          padding: 10,
+                          borderRadius: 6,
+                          backgroundColor: '#26bd37',
+                          width: 100,
+                        }}>
+                        <Text style={{textAlign: 'center', color: 'white'}}>
+                          ACCEPT
+                        </Text>
+                      </Pressable>
+                    </View>
                   </View>
                 </Pressable>
               ))}

@@ -280,6 +280,54 @@ const ManageRequestsScreen = () => {
           )}
         </View>
       </View>
+      <View style={{marginTop: 10, marginHorizontal: 15}}>
+          <View>
+            {option == 'Playing' && (
+              <>
+                <View style={{}}>
+                  {players?.map((item, index) => (
+                    <Pressable
+                    key={index}
+                      style={{
+                        marginVertical: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 10,
+                      }}>
+                      <View>
+                        <Image
+                          style={{width: 60, height: 60, borderRadius: 30}}
+                          source={{uri: item?.image}}
+                        />
+                      </View>
+
+                      <View>
+                        <Text>
+                          {item?.firstName} {item?.lastName}
+                        </Text>
+
+                        <View
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 5,
+                            marginTop: 10,
+                            borderRadius: 20,
+                            borderColor: 'orange',
+                            borderWidth: 1,
+                            alignSelf: 'flex-start',
+                          }}>
+                          <Text style={{fontSize: 13, fontWeight: '400'}}>
+                            INTERMEDIATE
+                          </Text>
+                        </View>
+                      </View>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            )}
+          </View>
+        </View>
     </SafeAreaView>
   );
 };

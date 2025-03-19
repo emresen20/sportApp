@@ -118,6 +118,13 @@ const PlayScreen = ({props}) => {
   // console.log(UpcomingGames);
   // // const filteredGames = games?.filter(game => game.sport === sport);
 
+  useFocusEffect(  // bu sayfaya girildiğinde focus olur
+    useCallback(()=>{
+      if(userId){ //userId değişmez ise gereksiz yere triger olunmaz
+        fetchGames()
+      }
+    },[userId])
+  )
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>

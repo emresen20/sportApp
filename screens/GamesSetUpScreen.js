@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,6 +24,7 @@ const GamesSetUpScreen = () => {
   const [modalVisiable, setModalVisiable] = useState(false);
   const [comment, setComment] = useState('');
   const {userId} = useContext(AuthContext);
+  const navigation=useNavigation();
 
   console.log('itemddeem',route?.params?.item);
 
@@ -377,7 +378,7 @@ const GamesSetUpScreen = () => {
                     <Pressable
                       onPress={() =>
                         navigation.navigate('Manage', {
-                          requests: requests,
+                          //requests: requests,
                           userId: userId,
                           gameId: route?.params?.item?._id,
                         })
@@ -404,14 +405,14 @@ const GamesSetUpScreen = () => {
                         }}
                       />
                     </Pressable>
-                    {/* <Text
+                    <Text
                       style={{
                         marginTop: 8,
                         fontWeight: '500',
                         textAlign: 'center',
                       }}>
-                      Manage ({requests?.length})
-                    </Text> */}
+                      Manage 
+                    </Text>
                   </Pressable>
 
                   <Pressable

@@ -22,6 +22,7 @@ import CreateActivity from '../screens/CreateActivity';
 import TagVenueScreen from '../screens/TagVenueScreen';
 import SelectTimeScreen from '../screens/SelectTimeScreen';
 import GamesSetUpScreen from '../screens/GamesSetUpScreen';
+import ManageRequestsScreen from '../screens/ManageRequestsScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -172,6 +173,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name="Game"
           component={GamesSetUpScreen}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Manage"
+          component={ManageRequestsScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

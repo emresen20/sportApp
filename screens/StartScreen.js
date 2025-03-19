@@ -224,7 +224,7 @@ const StartScreen = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 16, color: 'gray'}}>
+          <Text style={{fontSize: 16, color: 'green'}}>
             Already have an account? Login
           </Text>
         </Pressable>

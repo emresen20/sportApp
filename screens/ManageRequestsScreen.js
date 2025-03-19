@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Pressable,
   SafeAreaView,
@@ -14,15 +15,31 @@ import axios from 'axios';
 
 const ManageRequestsScreen = () => {
   const [option, setOption] = useState('Requests');
+  const [players, setPlayers] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
   const userId = route?.params?.userId;
   const gameId = route?.params?.gameId;
   const [requests, setRequests] = useState([]);
+  console.log('gfame', gameId);
 
   useEffect(() => {
     fetchRequests();
   }, []);
+  useEffect(() => {
+    fetchPlayers();
+  }, []);
+
+  const fetchPlayers = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/game/${gameId}/players`,
+      );
+      setPlayers(response?.data);
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
 
   const fetchRequests = async () => {
     try {
@@ -35,7 +52,24 @@ const ManageRequestsScreen = () => {
     }
   };
 
-  console.log('requests,', requests);
+  console.log('playersw,', players);
+
+  const acceptRequest = async userId => {
+    try {
+      const user = {
+        gameId: gameId,
+        userId: userId,
+      };
+      const response = await axios.post('http://localhost:8000/accept', user);
+      if ((response.status = 200)) {
+        Alert.alert('Succes', 'Request Accepted');
+        await fetchRequests();
+        await fetchPlayers();
+      }
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
   return (
     <SafeAreaView>
       <View style={{padding: 12, backgroundColor: '#223536'}}>
@@ -82,7 +116,7 @@ const ManageRequestsScreen = () => {
                 color: option == 'Requests' ? '#1dd132' : 'white',
               }}>
               {/* Requests ({route?.params?.requests?.length}) */}
-              Requests (0)
+              Requests ({requests?.length})
             </Text>
           </Pressable>
 
@@ -102,7 +136,7 @@ const ManageRequestsScreen = () => {
                 fontWeight: '500',
                 color: option == 'Playing' ? '#1dd132' : 'white',
               }}>
-              Playing
+              Playing ({players?.length})
             </Text>
           </Pressable>
 
@@ -215,7 +249,6 @@ const ManageRequestsScreen = () => {
                         flexDirection: 'row',
                         alignItems: 'center',
                         gap: 12,
-                        
                       }}>
                       <Pressable
                         style={{
@@ -228,7 +261,7 @@ const ManageRequestsScreen = () => {
                         <Text style={{textAlign: 'center'}}>RETIRE</Text>
                       </Pressable>
                       <Pressable
-                        //onPress={() => acceptRequest(item.userId)}
+                        onPress={() => acceptRequest(item?.userId)}
                         style={{
                           padding: 10,
                           borderRadius: 6,

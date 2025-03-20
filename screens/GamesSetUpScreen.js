@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -25,6 +25,7 @@ const GamesSetUpScreen = () => {
   const [comment, setComment] = useState('');
   const {userId} = useContext(AuthContext);
   const navigation=useNavigation();
+  const [venues, setVenues] = useState([]);
 
   console.log('itemddeem',route?.params?.item);
 
@@ -53,7 +54,23 @@ const GamesSetUpScreen = () => {
       console.log('Error', error);
     }
   };
-  console.log('route', route?.params?.item?.isUserAdmin);
+
+  const fetchVenues = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/venues');
+      setVenues(response.data);
+    } catch (error) {
+      console.log('Error fetch Venues', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchVenues();
+  }, []);
+  const venue= venues?.find((item)=> item?.name == route?.params?.item?.area)
+  const[startTime,endTime]=route?.params.item?.time.split(' - ').map(time=> time.trim())
+  console.log('start,end', startTime,endTime);
+
   return (
     <>
       <SafeAreaView style={{flex: 1}}>

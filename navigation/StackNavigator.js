@@ -23,6 +23,7 @@ import TagVenueScreen from '../screens/TagVenueScreen';
 import SelectTimeScreen from '../screens/SelectTimeScreen';
 import GamesSetUpScreen from '../screens/GamesSetUpScreen';
 import ManageRequestsScreen from '../screens/ManageRequestsScreen';
+import SlotScreen from '../screens/SlotScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -180,7 +181,13 @@ const StackNavigator = () => {
           component={ManageRequestsScreen}
           options={{headerShown: false}}
         />
+         <Stack.Screen
+          name="Slot"
+          component={SlotScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
+      
     );
   }
 

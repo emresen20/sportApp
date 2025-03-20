@@ -1,12 +1,18 @@
 import {View, Text, Pressable, Image} from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../AuthContext';
 
 const Game = ({item}) => {
     const navigation=useNavigation();
     console.log('item',item)
+    const {userId}=useContext(AuthContext)
+    const isUserInRequests = item?.requests.some(
+      request => request.userId === userId,
+    );
+  
   return (
     <Pressable
     onPress={() =>
@@ -145,7 +151,7 @@ const Game = ({item}) => {
             Intermediate to Advanced
           </Text>
         </View>
-        {/* {isUserInRequests && (
+        {isUserInRequests && (
           <View
             style={{
               backgroundColor: '#4ba143',
@@ -160,7 +166,7 @@ const Game = ({item}) => {
               </Text>
             </View>
           </View>
-        )} */}
+        )}
       </View>
     </View>
   </Pressable>

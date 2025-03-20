@@ -29,7 +29,7 @@ const GamesSetUpScreen = () => {
   console.log('itemddeem',route?.params?.item);
 
   const userRequested = route?.params?.item.requests.some(
-    request => request.userId === userId,
+    request => request.userId === userId, // requesttte bu userId li var mı yok mu boolean
   );
   const sendJoinRequest = async gameId => {
     try {

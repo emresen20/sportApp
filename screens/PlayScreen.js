@@ -16,14 +16,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import Game from './components/Game';
 import {AuthContext} from '../AuthContext';
 import UpcomingGame from './components/UpcomingGame';
 
 const PlayScreen = ({props}) => {
-  const [option, setOption] = useState('Calendar');
+
   const [sport, setSport] = useState('Badminton');
   const navigation = useNavigation();
   const [games, setGames] = useState([]);
@@ -31,7 +31,17 @@ const PlayScreen = ({props}) => {
   const [UpcomingGames, setUpcomingGames] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user,setUser]=useState(null);
+  const route= useRoute();
+  const initialOption= route?.params?.initialOption || 'My Sports' 
+  const [option, setOption] = useState(initialOption);
 
+
+  
+  useEffect(()=>{
+    if(initialOption){
+      setOption(initialOption)
+    }
+  },[initialOption])
   useEffect(() => {
     fetchGames();
   }, []);

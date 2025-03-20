@@ -135,7 +135,9 @@ const HomeScreen = () => {
 
         <Text style={styles.nogameText}>You have no Games Today</Text>
 
-        <Pressable style={styles.viewCalendar}>
+        <Pressable 
+        onPress={()=> navigation.navigate('Play',{initialOption:'Calendar'})}
+        style={styles.viewCalendar}>
           <Text style={styles.TextCalendar}>View My Calendar</Text>
         </Pressable>
       </View>

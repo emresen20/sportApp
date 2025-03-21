@@ -24,10 +24,10 @@ const GamesSetUpScreen = () => {
   const [modalVisiable, setModalVisiable] = useState(false);
   const [comment, setComment] = useState('');
   const {userId} = useContext(AuthContext);
-  const navigation=useNavigation();
+  const navigation = useNavigation();
   const [venues, setVenues] = useState([]);
 
-  console.log('itemddeem',route?.params?.item);
+  console.log('itemddeem', route?.params?.item);
 
   const userRequested = route?.params?.item.requests.some(
     request => request.userId === userId, // requesttte bu userId li var mı yok mu boolean
@@ -67,9 +67,11 @@ const GamesSetUpScreen = () => {
   useEffect(() => {
     fetchVenues();
   }, []);
-  const venue= venues?.find((item)=> item?.name == route?.params?.item?.area)
-  const[startTime,endTime]=route?.params.item?.time.split(' - ').map(time=> time.trim())
-  console.log('start,end', startTime,endTime);
+  const venue = venues?.find(item => item?.name == route?.params?.item?.area);
+  const [startTime, endTime] = route?.params.item?.time
+    .split(' - ')
+    .map(time => time.trim());
+  console.log('start,end', startTime, endTime);
 
   return (
     <>
@@ -164,20 +166,21 @@ const GamesSetUpScreen = () => {
               }
               style={{
                 backgroundColor: '#28c752',
-                paddingHorizontal: 10,
+                paddingHorizontal: 15,
                 paddingVertical: 6,
                 marginTop: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 10,
                 width: '90%',
                 justifyContent: 'center',
                 borderRadius: 8,
               }}>
-              <Entypo name="location" size={24} color="white" />
+              <View style={{marginLeft: 5}}>
+                <Entypo name="location" size={24} color="white" />
+              </View>
 
               <View>
-                <Text style={{color: 'white'}}>
+                <Text style={{color: 'white', textAlign: 'center'}}>
                   {route?.params?.item?.area}
                 </Text>
               </View>
@@ -428,7 +431,7 @@ const GamesSetUpScreen = () => {
                         fontWeight: '500',
                         textAlign: 'center',
                       }}>
-                      Manage 
+                      Manage
                     </Text>
                   </Pressable>
 
@@ -576,7 +579,6 @@ const GamesSetUpScreen = () => {
       </SafeAreaView>
 
       {route?.params?.item?.isUserAdmin == true ? (
-       
         <Pressable
           style={{
             backgroundColor: '#07bc0c',

@@ -139,292 +139,116 @@ const SlotScreen = () => {
   const courts = route?.params?.sports.filter(
     item => item.name === selectedSport,
   );
+  const price = route?.params?.sports
+    .filter(item => item.name == selectedSport)
+    .map(item => item.price);
+
   console.log('courts', courts);
   console.log('slotroute', route?.params);
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View
-          style={{
-            padding: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-          }}>
-          <Ionicons
-            onPress={() => navigation.goBack()}
-            name="arrow-back-outline"
-            size={25}
-            color="black"
-          />
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={{fontSize: 15, fontWeight: '500', width: '90%'}}>
-            {route?.params?.place}
-          </Text>
-        </View>
-        <ScrollView
-          contentContainerStyle={{marginLeft: 'auto'}}
-          showsHorizontalScrollIndicator={false}
-          horizontal>
-          {route.params.sports.map((item, index) => {
-            // if (item.name === selectedSport) {
-            //  showCalender
-            // }
-            return (
-              <View>
-                {selectedSport.includes(item.name) ? (
-                  <Pressable
-                    key={index}
-                    style={{
-                      borderColor: 'green',
-                      margin: 10,
-                      padding: 20,
-                      width: 80,
-                      height: 90,
-                      borderWidth: 3,
-                      borderRadius: 5,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <MaterialCommunityIcons
-                      style={{textAlign: 'center'}}
-                      name={item.icon}
-                      size={24}
-                      color="gray"
-                    />
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 'bold',
-                        width: 80,
-                        textTransform: 'uppercase',
-                        textAlign: 'center',
-                        marginTop: 10,
-                      }}>
-                      {item.name}
-                    </Text>
-                  </Pressable>
-                ) : (
-                  <Pressable
-                    key={index}
-                    onPress={() => {
-                      setselectedSport(item.name);
-                      setSelectedCourt([]);
-                    }}
-                    style={{
-                      borderColor: '#686868',
-                      margin: 10,
-                      padding: 20,
-                      width: 80,
-                      height: 90,
-                      borderWidth: 1,
-                      borderRadius: 5,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <MaterialCommunityIcons
-                      style={{textAlign: 'center'}}
-                      name={item.icon}
-                      size={24}
-                      color="gray"
-                    />
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 'bold',
-                        width: 80,
-                        textTransform: 'uppercase',
-                        textAlign: 'center',
-                        marginTop: 10,
-                      }}>
-                      {item.name}
-                    </Text>
-                  </Pressable>
-                )}
-              </View>
-            );
-          })}
-        </ScrollView>
-        {selectedSport && (
-          <ScrollView>
-            <Calender
-              selectedSport={selectedSport}
-              onSelectDate={setSelectedDate}
-              setSelectedTime={setSelectedTime}
-              selected={selectedDate}
+    <>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingTop: Platform.OS === 'android' ? 35 : 0,
+        }}>
+        <ScrollView>
+          <View
+            style={{
+              padding: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10,
+            }}>
+            <Ionicons
+              onPress={() => navigation.goBack()}
+              name="arrow-back-outline"
+              size={25}
+              color="black"
             />
-          </ScrollView>
-        )}
-        <Pressable
-          style={{
-            flexDirection: 'row',
-            margin: 10,
-            alignItems: 'center',
-            gap: 20,
-            width: '100%',
-          }}>
-          <Pressable
-            style={{
-              borderColor: '#E0E0E0',
-              borderWidth: 1,
-              paddingVertical: 15,
-              paddingHorizontal: 60,
-              marginRight: 20,
-            }}>
             <Text
-              style={{fontSize: 13, fontWeight: '400', textAlign: 'center'}}>
-              TIME
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={{fontSize: 15, fontWeight: '500', width: '90%'}}>
+              {route?.params?.place}
             </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '400',
-                textAlign: 'center',
-                marginTop: 8,
-              }}>
-              {/* 06:30 AM */}
-              {route?.params?.startTime
-                ? route?.params?.startTime
-                : selectedTime.length > 0
-                ? selectedTime
-                : 'Choose Time'}
-            </Text>
-          </Pressable>
-          <Pressable
-            style={{
-              borderColor: '#E0E0E0',
-              borderWidth: 1,
-              paddingVertical: 15,
-              paddingHorizontal: 60,
-              marginRight: 20,
-            }}>
-            <Text
-              style={{fontSize: 13, fontWeight: '400', textAlign: 'center'}}>
-              TIME
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '400',
-                textAlign: 'center',
-                marginTop: 8,
-              }}>
-              {/* 06:30 AM */}
-              {route?.params?.endTime
-                ? route.params.endTime
-                : selectedTime.length > 0
-                ? calculateEndTime(selectedTime, duration)
-                : 'Choose Time'}
-            </Text>
-          </Pressable>
-        </Pressable>
-        <Text
-          style={{
-            textAlign: 'center',
-
-            fontSize: 16,
-            fontWeight: '500',
-          }}>
-          Duration
-        </Text>
-        <Pressable
-          style={{
-            gap: 15,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 10,
-          }}>
-          <Pressable
-            onPress={() => setDuration(Math.max(60, duration - 60))} //60 dakikadan küçük olamaz
-            style={{
-              width: 26,
-              height: 26,
-              borderRadius: 13,
-              borderColor: 'red',
-              borderWidth: 2,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{textAlign: 'center', fontSize: 15, fontWeight: '600'}}>
-              -
-            </Text>
-          </Pressable>
-          <Text style={{textAlign: 'center', fontSize: 16, fontWeight: '500'}}>
-            {duration}
-          </Text>
-          <Pressable
-            onPress={() => setDuration(duration + 60)}
-            style={{
-              width: 26,
-              height: 26,
-              borderRadius: 13,
-              borderColor: 'green',
-              borderWidth: 2,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{textAlign: 'center', fontSize: 15, fontWeight: '600'}}>
-              +
-            </Text>
-          </Pressable>
-        </Pressable>
-        <Text
-          style={{
-            textAlign: 'center',
-            marginVertical: 10,
-            fontSize: 16,
-            fontWeight: '500',
-          }}>
-          Select Slot
-        </Text>
-        {selectedSport && (
+          </View>
           <ScrollView
-            horizontal
-            contentContainerStyle={{marginHorizontal: 10}}
-            showsHorizontalScrollIndicator={false}>
-            {checkedTimes?.map((item, index) => {
-              const disabled = isSlotBooked(item?.time);
+            contentContainerStyle={{marginLeft: 'auto'}}
+            showsHorizontalScrollIndicator={false}
+            horizontal>
+            {route.params.sports.map((item, index) => {
+              // if (item.name === selectedSport) {
+              //  showCalender
+              // }
               return (
                 <View>
-                  {selectedTime.includes(item?.time) ? (
+                  {selectedSport.includes(item.name) ? (
                     <Pressable
-                      onPress={() => setSelectedTime(item?.time)}
+                      key={index}
                       style={{
+                        borderColor: 'green',
                         margin: 10,
-                        borderColor: '#1CAC78',
-                        backgroundColor: '#29AB87',
+                        padding: 20,
+                        width: 80,
+                        height: 90,
+                        borderWidth: 3,
                         borderRadius: 5,
-                        borderWidth: 1,
-                        padding: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
+                      <MaterialCommunityIcons
+                        style={{textAlign: 'center'}}
+                        name={item.icon}
+                        size={24}
+                        color="gray"
+                      />
                       <Text
                         style={{
-                          fontSize: 15,
+                          fontSize: 10,
                           fontWeight: 'bold',
-                          color: 'white',
+                          width: 80,
+                          textTransform: 'uppercase',
+                          textAlign: 'center',
+                          marginTop: 10,
                         }}>
-                        {item?.time}
+                        {item.name}
                       </Text>
                     </Pressable>
                   ) : (
                     <Pressable
+                      key={index}
+                      onPress={() => {
+                        setselectedSport(item.name);
+                        setSelectedCourt([]);
+                      }}
                       style={{
+                        borderColor: '#686868',
                         margin: 10,
-                        borderColor:
-                          item.status === false || disabled
-                            ? 'gray'
-                            : '#1CAC78',
-                        borderRadius: 5,
+                        padding: 20,
+                        width: 80,
+                        height: 90,
                         borderWidth: 1,
-                        padding: 10,
+                        borderRadius: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                        {item?.time}
+                      <MaterialCommunityIcons
+                        style={{textAlign: 'center'}}
+                        name={item.icon}
+                        size={24}
+                        color="gray"
+                      />
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 'bold',
+                          width: 80,
+                          textTransform: 'uppercase',
+                          textAlign: 'center',
+                          marginTop: 10,
+                        }}>
+                        {item.name}
                       </Text>
                     </Pressable>
                   )}
@@ -432,54 +256,240 @@ const SlotScreen = () => {
               );
             })}
           </ScrollView>
-        )}
-        <View style={{marginHorizontal: 10}}>
-          <View
+          {selectedSport && (
+            <ScrollView>
+              <Calender
+                selectedSport={selectedSport}
+                onSelectDate={setSelectedDate}
+                setSelectedTime={setSelectedTime}
+                selected={selectedDate}
+              />
+            </ScrollView>
+          )}
+          <Pressable
             style={{
               flexDirection: 'row',
+              margin: 10,
               alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
+              gap: 20,
+              width: '100%',
             }}>
-            {courts.map((item, index) =>
-              item.courts.map(court =>
-                selectedCourt.includes(court.name) ? (
-                  <Pressable
-                    key={index}
-                    onPress={() => setSelectedCourt(court.name)}
-                    style={{
-                      backgroundColor: '#00A86B',
-                      borderRadius: 6,
-                      padding: 15,
+            <Pressable
+              style={{
+                borderColor: '#E0E0E0',
+                borderWidth: 1,
+                paddingVertical: 15,
+                paddingHorizontal: 60,
+                marginRight: 20,
+              }}>
+              <Text
+                style={{fontSize: 13, fontWeight: '400', textAlign: 'center'}}>
+                TIME
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '400',
+                  textAlign: 'center',
+                  marginTop: 8,
+                }}>
+                {/* 06:30 AM */}
+                {route?.params?.startTime
+                  ? route?.params?.startTime
+                  : selectedTime.length > 0
+                  ? selectedTime
+                  : 'Choose Time'}
+              </Text>
+            </Pressable>
+            <Pressable
+              style={{
+                borderColor: '#E0E0E0',
+                borderWidth: 1,
+                paddingVertical: 15,
+                paddingHorizontal: 60,
+                marginRight: 20,
+              }}>
+              <Text
+                style={{fontSize: 13, fontWeight: '400', textAlign: 'center'}}>
+                TIME
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '400',
+                  textAlign: 'center',
+                  marginTop: 8,
+                }}>
+                {/* 06:30 AM */}
+                {route?.params?.endTime
+                  ? route.params.endTime
+                  : selectedTime.length > 0
+                  ? calculateEndTime(selectedTime, duration)
+                  : 'Choose Time'}
+              </Text>
+            </Pressable>
+          </Pressable>
+          <Text
+            style={{
+              textAlign: 'center',
 
-                      width: 160,
-                      margin: 10,
-                    }}>
-                    <Text style={{textAlign: 'center', color: 'white'}}>
-                      {court.name}
-                    </Text>
-                  </Pressable>
-                ) : (
-                  <Pressable
-                    onPress={() => setSelectedCourt(court.name)}
-                    style={{
-                      borderColor: '#00A86B',
-                      borderRadius: 6,
-                      padding: 15,
-                      borderWidth: 1,
-                      width: 160,
-                      margin: 10,
-                    }}>
-                    <Text style={{textAlign: 'center', color: '#00A86B'}}>
-                      {court.name}
-                    </Text>
-                  </Pressable>
+              fontSize: 16,
+              fontWeight: '500',
+            }}>
+            Duration
+          </Text>
+          <Pressable
+            style={{
+              gap: 15,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 10,
+            }}>
+            <Pressable
+              onPress={() => setDuration(Math.max(60, duration - 60))} //60 dakikadan küçük olamaz
+              style={{
+                width: 26,
+                height: 26,
+                borderRadius: 13,
+                borderColor: 'red',
+                borderWidth: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{textAlign: 'center', fontSize: 15, fontWeight: '600'}}>
+                -
+              </Text>
+            </Pressable>
+            <Text
+              style={{textAlign: 'center', fontSize: 16, fontWeight: '500'}}>
+              {duration}
+            </Text>
+            <Pressable
+              onPress={() => setDuration(duration + 60)}
+              style={{
+                width: 26,
+                height: 26,
+                borderRadius: 13,
+                borderColor: 'green',
+                borderWidth: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{textAlign: 'center', fontSize: 15, fontWeight: '600'}}>
+                +
+              </Text>
+            </Pressable>
+          </Pressable>
+          <Text
+            style={{
+              textAlign: 'center',
+              marginVertical: 10,
+              fontSize: 16,
+              fontWeight: '500',
+            }}>
+            Select Slot
+          </Text>
+          {selectedSport && (
+            <ScrollView
+              horizontal
+              contentContainerStyle={{marginHorizontal: 10}}
+              showsHorizontalScrollIndicator={false}>
+              {checkedTimes?.map((item, index) => {
+                const disabled = isSlotBooked(item?.time);
+                return (
+                  <View>
+                    {selectedTime.includes(item?.time) ? (
+                      <Pressable
+                        onPress={() => setSelectedTime(item?.time)}
+                        style={{
+                          margin: 10,
+                          borderColor: '#1CAC78',
+                          backgroundColor: '#29AB87',
+                          borderRadius: 5,
+                          borderWidth: 1,
+                          padding: 10,
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontWeight: 'bold',
+                            color: 'white',
+                          }}>
+                          {item?.time}
+                        </Text>
+                      </Pressable>
+                    ) : (
+                      <Pressable
+                        style={{
+                          margin: 10,
+                          borderColor:
+                            item.status === false || disabled
+                              ? 'gray'
+                              : '#1CAC78',
+                          borderRadius: 5,
+                          borderWidth: 1,
+                          padding: 10,
+                        }}>
+                        <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                          {item?.time}
+                        </Text>
+                      </Pressable>
+                    )}
+                  </View>
+                );
+              })}
+            </ScrollView>
+          )}
+          <View style={{marginHorizontal: 10}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+              }}>
+              {courts.map((item, index) =>
+                item.courts.map(court =>
+                  selectedCourt.includes(court.name) ? (
+                    <Pressable
+                      key={index}
+                      onPress={() => setSelectedCourt(court.name)}
+                      style={{
+                        backgroundColor: '#00A86B',
+                        borderRadius: 6,
+                        padding: 15,
+
+                        width: 160,
+                        margin: 10,
+                      }}>
+                      <Text style={{textAlign: 'center', color: 'white'}}>
+                        {court.name}
+                      </Text>
+                    </Pressable>
+                  ) : (
+                    <Pressable
+                      onPress={() => setSelectedCourt(court.name)}
+                      style={{
+                        borderColor: '#00A86B',
+                        borderRadius: 6,
+                        padding: 15,
+                        borderWidth: 1,
+                        width: 160,
+                        margin: 10,
+                      }}>
+                      <Text style={{textAlign: 'center', color: '#00A86B'}}>
+                        {court.name}
+                      </Text>
+                    </Pressable>
+                  ),
                 ),
-              ),
-            )}
+              )}
+            </View>
           </View>
-        </View>
-        {/* {selectedCourt.length > 0 && (
+          {selectedCourt.length > 0 && (
             <Text
               style={{
                 textAlign: 'center',
@@ -490,9 +500,23 @@ const SlotScreen = () => {
               }}>
               Court Price : Rs {price}
             </Text>
-          )} */}
-      </ScrollView>
-    </SafeAreaView>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+
+      <Pressable
+        style={{
+          backgroundColor: '#32CD32',
+          padding: 15,
+          borderRadius: 10,
+          marginHorizontal: 15,
+          marginBottom:10
+        }}>
+        <Text style={{textAlign: 'center', color: 'white', fontWeight: 'bold'}}>
+          Next
+        </Text>
+      </Pressable>
+    </>
   );
 };
 

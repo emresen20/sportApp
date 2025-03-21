@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -19,6 +19,7 @@ const SlotScreen = () => {
   const today = moment().format('YYYY-MM-DD');
   const navigation = useNavigation();
   const [duration, setDuration] = useState(60);
+  const [checkedTimes, setCheckedTimes] = useState([]);
   const route = useRoute();
   const [selectedSport, setselectedSport] = useState(
     route?.params?.sports[0].name,
@@ -84,6 +85,61 @@ const SlotScreen = () => {
     return `${formattedEndHours}:${formattedEndMinutes} ${endModifier}`; //saat ve dakikayı döndürür
   };
 
+  const [checkTimes, setCheckTimes] = useState([]);
+  const [times, setTimes] = useState([]);
+
+  const generateTimes = () => {
+    // 6dan 24 e kadar 60 dakika aralıklarla saatleri oluşturur
+    console.log('selectedDate', selectedDate);
+    const start = moment(selectedDate).startOf('day').add(6, 'hours');
+    const end = moment(selectedDate)
+      .startOf('day')
+      .add(23, 'hours')
+      .add(59, 'minutes');
+    const interval = 60;
+    const result = [];
+    let current = moment(start);
+
+    while (current <= end) {
+      result.push(current.format('hh:mm A'));
+      current.add(interval, 'minutes');
+    }
+
+    setTimes(result);
+  };
+  useEffect(() => {
+    generateTimes();
+  }, []);
+
+  useEffect(() => {
+    //gelecekte mi geçmişte mi
+    const checkTime = () => {
+      const currentDateTime = moment(); // Current date and time
+      const selectedDateStart = moment(selectedDate).startOf('day'); // Start of the selected date
+
+      const timess = times?.map(item => {
+        // Combine the selected date with the current time slot to create a full date-time
+        const dateTime = moment(selectedDateStart).set({
+          hour: moment(item, 'h:mma').get('hour'),
+          minute: moment(item, 'h:mma').get('minute'),
+        });
+
+        // Determine if the time slot is in the past or future
+        const status = currentDateTime.isBefore(dateTime);
+        return {time: item, status: status};
+      });
+
+      setCheckedTimes(timess);
+    };
+
+    checkTime();
+  }, [selectedDate, times]);
+
+  const isSlotBooked = time => {};
+  const courts = route?.params?.sports.filter(
+    item => item.name === selectedSport,
+  );
+  console.log('courts', courts);
   console.log('slotroute', route?.params);
   return (
     <SafeAreaView>
@@ -326,6 +382,115 @@ const SlotScreen = () => {
           }}>
           Select Slot
         </Text>
+        {selectedSport && (
+          <ScrollView
+            horizontal
+            contentContainerStyle={{marginHorizontal: 10}}
+            showsHorizontalScrollIndicator={false}>
+            {checkedTimes?.map((item, index) => {
+              const disabled = isSlotBooked(item?.time);
+              return (
+                <View>
+                  {selectedTime.includes(item?.time) ? (
+                    <Pressable
+                      onPress={() => setSelectedTime(item?.time)}
+                      style={{
+                        margin: 10,
+                        borderColor: '#1CAC78',
+                        backgroundColor: '#29AB87',
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        padding: 10,
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontWeight: 'bold',
+                          color: 'white',
+                        }}>
+                        {item?.time}
+                      </Text>
+                    </Pressable>
+                  ) : (
+                    <Pressable
+                      style={{
+                        margin: 10,
+                        borderColor:
+                          item.status === false || disabled
+                            ? 'gray'
+                            : '#1CAC78',
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        padding: 10,
+                      }}>
+                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                        {item?.time}
+                      </Text>
+                    </Pressable>
+                  )}
+                </View>
+              );
+            })}
+          </ScrollView>
+        )}
+        <View style={{marginHorizontal: 10}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+            }}>
+            {courts.map((item, index) =>
+              item.courts.map(court =>
+                selectedCourt.includes(court.name) ? (
+                  <Pressable
+                    key={index}
+                    onPress={() => setSelectedCourt(court.name)}
+                    style={{
+                      backgroundColor: '#00A86B',
+                      borderRadius: 6,
+                      padding: 15,
+
+                      width: 160,
+                      margin: 10,
+                    }}>
+                    <Text style={{textAlign: 'center', color: 'white'}}>
+                      {court.name}
+                    </Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    onPress={() => setSelectedCourt(court.name)}
+                    style={{
+                      borderColor: '#00A86B',
+                      borderRadius: 6,
+                      padding: 15,
+                      borderWidth: 1,
+                      width: 160,
+                      margin: 10,
+                    }}>
+                    <Text style={{textAlign: 'center', color: '#00A86B'}}>
+                      {court.name}
+                    </Text>
+                  </Pressable>
+                ),
+              ),
+            )}
+          </View>
+        </View>
+        {/* {selectedCourt.length > 0 && (
+            <Text
+              style={{
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 20,
+                fontSize: 15,
+                fontWeight: '500',
+              }}>
+              Court Price : Rs {price}
+            </Text>
+          )} */}
       </ScrollView>
     </SafeAreaView>
   );

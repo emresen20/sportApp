@@ -895,4 +895,40 @@ app.get('/game/:gameId/players', async (req, res) => {
   }
 });
 
+app.post('/book', async (req, res) => {
+  try {
+    const {courtNumber, date, time, name, game} = req.body;
 
+    const venue = await Venue.findOne({name: name});
+
+    if (!venue) {
+      return res.status(404).json({message: 'Venue not found'});
+    }
+
+    const bookingConflict =
+      venue?.bookings &&
+      venue.bookings.find(
+        booking =>
+          booking.date === date &&
+          booking.time === time &&
+          booking.courtNumber === courtNumber,
+      );
+
+    if (bookingConflict) {
+      return res.status(400).json({message: 'Slot already booked'});
+    }
+
+    venue.bookings.push({date, time, courtNumber, game});
+    await venue.save();
+    await Game.findByIdAndUpdate(game,{
+      isBooked:true,
+      courtNumber:courtNumber
+  
+    });
+    res.status(200).json({message: 'Booked successfully',venue});
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Failed to book'});
+  }
+});

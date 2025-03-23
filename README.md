@@ -53,17 +53,17 @@ A full-stack mobile application developed with the MERN stack that allows users 
    cd sports-app
 
 ## Screenshots
-<!-- ![a](./screenShoots/a.png)   -->
+
 <img src="./screenShoots/a.png" width="300" height="600" />  
-<img src="./screenShoots/aa.png" width="300" height="300" />  
-<img src="./screenShoots/ab.png" width="300" height="300" />  
-<img src="./screenShoots/abc.png" width="300" height="300" />  
-<img src="./screenShoots/abcd.png" width="300" height="300" />  
-<img src="./screenShoots/b.png" width="300" height="300" />  
-<img src="./screenShoots/c.png" width="300" height="300" />  
-<img src="./screenShoots/d.png" width="300" height="300" />  
-<img src="./screenShoots/e.png" width="300" height="300" />  
-<img src="./screenShoots/eb.png" width="300" height="300" />  
-<img src="./screenShoots/f.png" width="300" height="300" />  
-<img src="./screenShoots/g.png" width="300" height="300" />  
-<img src="./screenShoots/m.png" width="300" height="300" />
+<img src="./screenShoots/aa.png" width="300" height="600" />  
+<img src="./screenShoots/ab.png" width="300" height="600" />  
+<img src="./screenShoots/abc.png" width="300" height="600" />  
+<img src="./screenShoots/abcd.png" width="300" height="600" />  
+<img src="./screenShoots/b.png" width="300" height="600" />  
+<img src="./screenShoots/c.png" width="300" height="600" />  
+<img src="./screenShoots/d.png" width="300" height="600" />  
+<img src="./screenShoots/e.png" width="300" height="600" />  
+<img src="./screenShoots/eb.png" width="300" height="600" />  
+<img src="./screenShoots/f.png" width="300" height="600" />  
+<img src="./screenShoots/g.png" width="300" height="600" />  
+<img src="./screenShoots/m.png" width="300" height="600" />

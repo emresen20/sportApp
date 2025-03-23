@@ -54,7 +54,7 @@ A full-stack mobile application developed with the MERN stack that allows users 
 
 ## Screenshots
 <!-- ![a](./screenShoots/a.png)   -->
-<img src="./screenShoots/a.png" width="300" height="300" />  
+<img src="./screenShoots/a.png" width="300" height="600" />  
 <img src="./screenShoots/aa.png" width="300" height="300" />  
 <img src="./screenShoots/ab.png" width="300" height="300" />  
 <img src="./screenShoots/abc.png" width="300" height="300" />  

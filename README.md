@@ -53,4 +53,4 @@ A full-stack mobile application developed with the MERN stack that allows users 
    cd sports-app
 
 ## Screenshots
-![a](./screenShoots/a)  
+![a](./screenShoots/a.png)  

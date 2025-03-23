@@ -71,7 +71,7 @@ const ProfileDetailScreen = () => {
               width:"80%"
             }}>
             <View>
-              <Text style={{textAlign: 'center'}}>{user?.user?.noOfGames}</Text>
+              <Text style={{textAlign: 'center'}}>{user?.user?.noOfGames}1</Text>
               <Text style={{color: 'gray', marginTop: 6, fontSize: 13}}>
                 GAMES
               </Text>
@@ -79,7 +79,7 @@ const ProfileDetailScreen = () => {
 
             <View>
               <Text style={{textAlign: 'center'}}>
-                {user?.user?.playpals?.length}
+                {user?.user?.playpals?.length} 6
               </Text>
               <Text style={{color: 'gray', marginTop: 6, fontSize: 13}}>
                 PLAYPALS

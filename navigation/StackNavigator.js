@@ -25,6 +25,8 @@ import GamesSetUpScreen from '../screens/GamesSetUpScreen';
 import ManageRequestsScreen from '../screens/ManageRequestsScreen';
 import SlotScreen from '../screens/SlotScreen';
 import PaymentScreen from '../screens/PaymentScreen';
+import PlayersScreen from '../screens/PlayersScreen';
+import ProfileDetailScreen from '../screens/ProfileDetailScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -190,6 +192,16 @@ const StackNavigator = () => {
           <Stack.Screen
           name="Payment"
           component={PaymentScreen}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name="Players"
+          component={PlayersScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProfileDetail"
+          component={ProfileDetailScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

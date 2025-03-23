@@ -26,6 +26,8 @@ const GamesSetUpScreen = () => {
   const {userId} = useContext(AuthContext);
   const navigation = useNavigation();
   const [venues, setVenues] = useState([]);
+  const [players, setPlayers] = useState([]);
+
 
   console.log('itemddeem', route?.params?.item);
 
@@ -72,6 +74,37 @@ const GamesSetUpScreen = () => {
     .split(' - ')
     .map(time => time.trim());
   console.log('start,end', startTime, endTime);
+
+  const [matchFull, setMatchFull] = useState(false);
+  const toggleMatchFullStatus = async gameId => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/toggle-match-full',
+        {gameId},
+      );
+      if (response.status == 200) {
+        Alert.alert('Match Full Status', 'Match Full Status Updated');
+        setMatchFull(!matchFull);
+      }
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
+const gameId = route?.params?.item?._id;
+  useEffect(() => {
+    fetchPlayers();
+  }, []);
+
+  const fetchPlayers = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/game/${gameId}/players`,
+      );
+      setPlayers(response?.data);
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
 
   return (
     <>
@@ -130,7 +163,7 @@ const GamesSetUpScreen = () => {
                 <Text style={{fontSize: 15, fontWeight: '500', color: 'white'}}>
                   Match Full
                 </Text>
-                {/* <FontAwesome
+                <FontAwesome
                   onPress={() =>
                     toggleMatchFullStatus(route?.params?.item?._id)
                   }
@@ -141,7 +174,7 @@ const GamesSetUpScreen = () => {
                   }
                   size={24}
                   color="white"
-                /> */}
+                />
               </View>
             </View>
 
@@ -250,7 +283,7 @@ const GamesSetUpScreen = () => {
                 justifyContent: 'space-between',
               }}>
               <Text style={{fontSize: 16, fontWeight: '600'}}>
-                Players {route?.params?.item?.players.length}{' '}
+                Players ({route?.params?.item?.players.length})
               </Text>
 
               <Ionicons name="earth" size={24} color="gray" />

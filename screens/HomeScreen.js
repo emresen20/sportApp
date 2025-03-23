@@ -16,27 +16,32 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { AuthContext } from '../AuthContext';
+import {AuthContext} from '../AuthContext';
 import axios from 'axios';
 
 const HomeScreen = () => {
-  const route=useRoute();
-  const {userId}=useContext(AuthContext);
-  const [user,setUser]=useState(null);
+  const route = useRoute();
+  const {userId} = useContext(AuthContext);
+  const [user, setUser] = useState(null);
   const navigation = useNavigation();
-  console.log('userId',userId)
+  const [usserId, setUserId] = useState('null');
+  const [upcomingGames, setUpcomingGames] = useState([]);
+
+  console.log('userId', userId);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '',
       headerLeft: () => (
         <View>
-          <Text style={{marginLeft: hp('2%')}}>{user?.user?.firstName} {user?.user?.lastName}</Text>
+          <Text style={{marginLeft: hp('2%')}}>
+            {user?.user?.firstName} {user?.user?.lastName}
+          </Text>
         </View>
       ),
       headerRight: () => (
         <View style={styles.leftheader}>
           <Icon name="chatbox-outline" size={hp('3%')} color="black" />
-          <Icon name="notifications-outline" size={hp('3%')} color="black" />
+          <Icon name="notifications-outline" size={hp('3%')} color="green" />
 
           <Pressable>
             <Image
@@ -49,7 +54,7 @@ const HomeScreen = () => {
         </View>
       ),
     });
-  },[user]);
+  }, [user]);
 
   const data = [
     {
@@ -82,17 +87,50 @@ const HomeScreen = () => {
     },
   ];
 
-  useEffect(()=>{
-    if(userId){
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = await AsyncStorage.getItem('token');
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+      setUserId(userId);
+    };
+
+    fetchUser();
+  }, []);
+  console.log('user', userId);
+  useEffect(() => {
+    if (userId) {
       fetchUser();
     }
-  },[userId])
+  }, [userId]);
+  useEffect(() => {
+    if (userId) {
+      fetchUser();
+    }
+  }, [userId]);
 
-  const fetchUser= async ()=>{
-    console.log('userid',userId)
+  const fetchUser = async () => {
+    console.log('userid', userId);
     const response = await axios.get(`http://localhost:8000/user/${userId}`);
-    setUser(response.data)
-  }
+    setUser(response.data);
+  };
+
+  useEffect(() => {
+    if (userId) {
+      fetchUpcomingGames();
+    }
+  }, [userId]);
+  const fetchUpcomingGames = async () => {
+    try {
+      console.log('myysdyfydyfdf', userId);
+      const response = await axios.get(
+        `http://localhost:8000/upcoming?userId=${userId}`,
+      );
+      setUpcomingGames(response.data);
+    } catch (error) {
+      console.error('Failed to fetch upcoming games:', error);
+    }
+  };
 
   return (
     <ScrollView style={styles.scroll}>
@@ -133,17 +171,25 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <Text style={styles.nogameText}>You have no Games Today</Text>
+        <Text style={{marginTop: 4, color: 'gray'}}>
+          {upcomingGames?.length == 0
+            ? 'You have no Games Today'
+            : 'You have Games waiting in your calender'}
+        </Text>
 
-        <Pressable 
-        onPress={()=> navigation.navigate('Play',{initialOption:'Calendar'})}
-        style={styles.viewCalendar}>
+        <Pressable
+          onPress={() =>
+            navigation.navigate('Play', {initialOption: 'Calendar'})
+          }
+          style={styles.viewCalendar}>
           <Text style={styles.TextCalendar}>View My Calendar</Text>
         </Pressable>
       </View>
 
       <View style={styles.footballcontaienerview}>
-        <Pressable style={{flex: 1}}>
+        <Pressable
+          style={{flex: 1}}
+          onPress={() => navigation.navigate('Play')}>
           <View style={styles.footbalimageview}>
             <Image
               source={{
@@ -235,11 +281,11 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
       </View>
-      
-      <View   style={{ marginBottom:hp('2')}}>
-        <View style={{alignItems:'center'}}>
+
+      <View style={{marginBottom: hp('2')}}>
+        <View style={{alignItems: 'center'}}>
           <Image
-            style={{width: wp('30'), height:hp('8'),resizeMode: 'contain'}}
+            style={{width: wp('30'), height: hp('8'), resizeMode: 'contain'}}
             source={{
               uri: 'https://playo-website.gumlet.io/playo-website-v2/logos-icons/new-logo-playo.png?q=50',
             }}
@@ -249,7 +295,6 @@ const HomeScreen = () => {
           Your Sports community app
         </Text>
       </View>
-
     </ScrollView>
   );
 };
